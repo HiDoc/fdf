@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 11:12:34 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/11 15:13:37 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/11 16:17:51 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int		ft_draw(char *file)
 			if (x + 1 < grid->size_x && y + 1 < grid->size_y)
 			{
 				if (grid->grid[y][x] == grid->grid[y][x + 1] && grid->grid[y][x] == grid->grid[y + 1][x]
-					&& grid->grid[y + 1][x + 1] == grid->grid[y][x])
+						&& grid->grid[y + 1][x + 1] == grid->grid[y][x])
 				{
 					tmp = 0;
 					while (tmp < (ft_pos(y + 1, 0) - ft_pos(y, 0)))
@@ -58,26 +58,9 @@ int		ft_draw(char *file)
 						while (tmp2 < (ft_pos(x + 1, y) - ft_pos(x, y)))
 						{
 							mlx_pixel_put(mlx, win,
-								ft_pos(x, y) + tmp + tmp2, 
-								ft_pos(y - grid->grid[y][x], 0) + tmp2 + 100,
-								0x00222222);
-							tmp2++;
-						}
-						tmp++;
-					}
-				}
-				else	
-				{
-					tmp = 0;
-					while (tmp < (ft_pos(y + 1, 0) - ft_pos(y, 0)))
-					{
-						tmp2 = 0;
-						while (tmp2 < (ft_pos(x + 1, y) - ft_pos(x, y)))
-						{
-							mlx_pixel_put(mlx, win,
-								ft_pos(x, y) + tmp + tmp2, 
-								ft_pos(y - grid->grid[y][x], 0) + tmp2 + 100,
-								0x0000FF00);
+									ft_pos(x, y) + tmp + tmp2, 
+									ft_pos(y - grid->grid[y][x], 0) + tmp2 + 100,
+									0x00555555);
 							tmp2++;
 						}
 						tmp++;
@@ -102,13 +85,8 @@ int		ft_draw(char *file)
 					}
 				else
 				{
-					distance = ft_pythagore(
-							ft_pos(x + 1, y) - ft_pos (x, y),
-							(ft_pos(y - grid->grid[y][x + 1], 0) - ft_pos(y - grid->grid[y][x], 0)));
+					distance = ft_pythagore(ft_pos(x + 1, y) - ft_pos (x, y), (ft_pos(y - grid->grid[y][x + 1], 0) - ft_pos(y - grid->grid[y][x], 0)));
 					while (tmp < distance)
-							//&&
-							//ft_pos(y - grid->grid[y][x], 0) - (grid->grid[y][x] > grid->grid[y][x + 1] ? -tmp : tmp)
-							//!= ft_pos(y - grid->grid[y][x + 1],0))
 					{
 						pas = distance / 20;
 						mlx_pixel_put(mlx, win,
