@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 11:12:34 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/11 11:52:52 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/11 15:13:37 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		ft_pos(int x, int y)
 {
-	return ((x * 20 + 300) + (y * 20));
+	return ((x * 20 + 200) + (y * 20));
 }
 
 int		ft_pythagore(int a, int b)
@@ -45,9 +45,49 @@ int		ft_draw(char *file)
 		x = 0;
 		while (x < grid->size_x)
 		{
+			// Remplit les carres
+			if (x + 1 < grid->size_x && y + 1 < grid->size_y)
+			{
+				if (grid->grid[y][x] == grid->grid[y][x + 1] && grid->grid[y][x] == grid->grid[y + 1][x]
+					&& grid->grid[y + 1][x + 1] == grid->grid[y][x])
+				{
+					tmp = 0;
+					while (tmp < (ft_pos(y + 1, 0) - ft_pos(y, 0)))
+					{
+						tmp2 = 0;
+						while (tmp2 < (ft_pos(x + 1, y) - ft_pos(x, y)))
+						{
+							mlx_pixel_put(mlx, win,
+								ft_pos(x, y) + tmp + tmp2, 
+								ft_pos(y - grid->grid[y][x], 0) + tmp2 + 100,
+								0x00222222);
+							tmp2++;
+						}
+						tmp++;
+					}
+				}
+				else	
+				{
+					tmp = 0;
+					while (tmp < (ft_pos(y + 1, 0) - ft_pos(y, 0)))
+					{
+						tmp2 = 0;
+						while (tmp2 < (ft_pos(x + 1, y) - ft_pos(x, y)))
+						{
+							mlx_pixel_put(mlx, win,
+								ft_pos(x, y) + tmp + tmp2, 
+								ft_pos(y - grid->grid[y][x], 0) + tmp2 + 100,
+								0x0000FF00);
+							tmp2++;
+						}
+						tmp++;
+					}
+				}
+			}
 			tmp = 0;
 			tmp2 = 0;
 			pas = 0;
+			// Remplit de facon horizontale
 			if (x + 1 < grid->size_x)
 			{
 				distance = ft_pos(x + 1, y) - ft_pos (x, y);
@@ -65,15 +105,16 @@ int		ft_draw(char *file)
 					distance = ft_pythagore(
 							ft_pos(x + 1, y) - ft_pos (x, y),
 							(ft_pos(y - grid->grid[y][x + 1], 0) - ft_pos(y - grid->grid[y][x], 0)));
-					while (tmp < distance &&
-							ft_pos(y - grid->grid[y][x], 0) - (grid->grid[y][x] > grid->grid[y][x + 1] ? -tmp : tmp)
-							!= ft_pos(y - grid->grid[y][x + 1],0))
+					while (tmp < distance)
+							//&&
+							//ft_pos(y - grid->grid[y][x], 0) - (grid->grid[y][x] > grid->grid[y][x + 1] ? -tmp : tmp)
+							//!= ft_pos(y - grid->grid[y][x + 1],0))
 					{
 						pas = distance / 20;
 						mlx_pixel_put(mlx, win,
 								ft_pos(x, y) + tmp2, 
 								ft_pos(y - grid->grid[y][x], 0) - (grid->grid[y][x] > grid->grid[y][x + 1] ? -tmp : tmp) + 100,
-								0x00992255);
+								0x00662255);
 						tmp++;
 						tmp2 += tmp % pas == 0; 
 					}
@@ -82,6 +123,7 @@ int		ft_draw(char *file)
 			tmp = 0;
 			tmp2 = 0;
 			pas = 0;
+			// Remplit de facon verticale
 			if (y + 1 < grid->size_y)
 			{
 				distance = ft_pos(y + 1, 0) - ft_pos (y, 0);
@@ -96,18 +138,14 @@ int		ft_draw(char *file)
 					}
 				else
 				{
-					distance = ft_pythagore(
-							ft_pos(y + 1, 0) - ft_pos (y, 0),
-							(ft_pos(y - grid->grid[y][x + 1], 0) - ft_pos(y - grid->grid[y][x], 0)));
-					while (tmp < distance &&
-							ft_pos(y - grid->grid[y][x], 0) - (grid->grid[y][x] > grid->grid[y][x + 1] ? -tmp : tmp)
-							!= ft_pos(y - grid->grid[y][x + 1],0))
+					distance = ft_pythagore(ft_pos(y + 1 - grid->grid[y + 1][x], 0) - ft_pos(y - grid->grid[y][x], 0), ft_pos(x, y + 1) - ft_pos(x, y));
+					while (tmp < distance)
 					{
 						pas = distance / 20;
 						mlx_pixel_put(mlx, win,
 								ft_pos(x, y) + tmp2, 
-								ft_pos(y - grid->grid[y][x], 0) - (grid->grid[y][x] > grid->grid[y][x + 1] ? -tmp : tmp) + 100,
-								0x00992255);
+								ft_pos(y - grid->grid[y][x], 0) - (grid->grid[y][x] > grid->grid[y + 1][x] ? -tmp : tmp) + 100,
+								0x00111199);
 						tmp++;
 						tmp2 += tmp % pas == 0; 
 					}
