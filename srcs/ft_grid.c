@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 16:44:36 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/10 15:36:07 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/12 15:04:27 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,9 @@ t_grid	*ft_new_grid(int **tab, int size_x, int size_y)
 	new->size_x = size_x;
 	new->size_y = size_y;
 	return (new);
+}
+
+int		real_y(t_grid *grid, int x, int y)
+{
+	return (y - grid->grid[y][x]);
 }

@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 14:20:19 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/10 17:11:53 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/12 15:04:17 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct	s_grid
 t_point			*ft_new_point(int z);
 t_grid			*ft_new_grid(int **tab, int size_x, int size_y);
 void			ft_del_grid(t_grid *grid);
+int				real_y(t_grid *grid, int x, int y);
 int				ft_parse_line(int y, t_grid *grid, char *str, int filled);
 int				ft_parse_file(int fd, t_grid *grid, int sized);
 int				ft_pythagore(int a, int b);
