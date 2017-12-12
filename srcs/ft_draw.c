@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 11:12:34 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/12 16:06:31 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/12 16:22:07 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		ft_posy(t_grid *grid, int x, int y)
 
 int		ft_posx(int x, int y)
 {
-	return ((x * RES + 300) + (y * RES));
+	return ((x * RES + 200) + (y * RES));
 }
 
 int		ft_draw(char *file)
@@ -74,6 +74,15 @@ int		ft_draw(char *file)
 			if (y + 1 < grid->size_y)
 			{
 				distance = ft_pythagore(ft_posy(grid, x, y + 1) - ft_posy(grid, x, y), ft_posx(x, y + 1) - ft_posx(x, y));
+				ft_putstr("y + 1:");
+				ft_putendl(ft_itoa(ft_posy(grid, x, y + 1)));
+				ft_putstr("y :");
+				ft_putendl(ft_itoa(ft_posy(grid, x, y)));
+				ft_putstr("x + 1 :");
+				ft_putendl(ft_itoa(ft_posx(x, y + 1)));
+				ft_putstr("x :");
+				ft_putendl(ft_itoa(ft_posx(x, y)));
+				ft_putendl(ft_itoa(distance));
 				while (tmp < distance)
 				{
 					pas = distance / RES;
