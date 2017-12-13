@@ -6,31 +6,64 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 11:12:34 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/13 14:37:25 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/13 18:45:23 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-# define RES 20
 
-int		ft_draw(char *file)
+static int	ft_draw_lines_sub(t_grid *grid, int y)
 {
-	void	*mlx;
-	void	*win;
-	t_grid	*grid;
+	int tmp;
+	int	x;
+	int pas;
+	int distance;
+
+	x = 0;
+	while (x + 1 < grid->size_x)
+	{
+		tmp = 0;
+		distance = ft_distance(grid->grid[y][x + 1], grid->grid[y][x]);
+		pas = distance / RES;
+		while (tmp < distance && grid->grid[y][x]->x + tmp/pas < grid->grid[y][x + 1]->x)
+		{
+			if ((grid->grid[y][x])->z == (grid->grid[y][x + 1])->z)
+				mlx_pixel_put(grid->mlx, grid->win,
+				grid->grid[y][x]->x + tmp / pas, grid->grid[y][x]->y, 0x00BB0000);
+			else
+				mlx_pixel_put(grid->mlx, grid->win, grid->grid[y][x]->x + tmp/pas, 
+				grid->grid[y][x]->y + ((grid->grid[y][x])->z > 
+				(grid->grid[y][x + 1])->z ? tmp : -tmp), 0x00AA22AA);
+			tmp++;
+		}
+		x++;
+	}
+	return (1);
+}
+
+int		ft_draw_lines(t_grid *grid)
+{
+	int		y;
+
+	y = 0;
+	while (y < grid->size_y)
+	{
+		ft_draw_lines_sub(grid, y);
+		y++;
+	}
+	return (1);
+}
+
+int		ft_draw_lines2(t_grid *grid)
+{
 	int		x;
 	int		y;
 	int		tmp;
 	int		tmp2;
-	int		pas;
 	int		distance;
+	int		pas;
 
-	mlx = mlx_init();
-	win = mlx_new_window(mlx, 1000, 1000, "FDF");
-	if ((grid = (ft_read(file))) == NULL)
-		return (0);
 	y = 0;
-	distance = 0;
 	while (y < grid->size_y)
 	{
 		x = 0;
@@ -38,51 +71,38 @@ int		ft_draw(char *file)
 		{
 			tmp = 0;
 			tmp2 = 0;
-			pas = 0;
-			// Remplit de facon horizontale
-			if (x + 1 < grid->size_x)
-			{
-				distance = ft_pythagore(ft_posx(x + 1, y) - ft_posx(x, y), (ft_posy(grid, x + 1, y) - ft_posy(grid, x, y)));
-				while (tmp < distance)
-				{
-					pas = distance / RES;
-					if ((grid->grid[y][x])->z == (grid->grid[y][x + 1])->z)
-					{
-						mlx_pixel_put(mlx, win, ft_posx(x, y) + tmp, ft_posy(grid, x, y), 0x00BB0000);
-					}
-					else
-						mlx_pixel_put(mlx, win, ft_posx(x, y) + tmp2, 
-						ft_posy(grid, x, y) + ((grid->grid[y][x])->z > (grid->grid[y][x + 1])->z ? tmp : -tmp), 0x00AA22AA);
-					tmp++;
-					tmp2 += tmp % pas == 0; 
-				}
-			}
-			tmp = 0;
-			tmp2 = 0;
-			pas = 0;
-			// Remplit de facon verticale
+			pas = 0;	
 			if (y + 1 < grid->size_y)
 			{
-				distance = ft_pythagore(ft_posy(grid, x, y + 1) - ft_posy(grid, x, y), ft_posx(x, y + 1) - ft_posx(x, y));
-				while (tmp < distance)
+				distance = ft_distance(grid->grid[y + 1][x], grid->grid[y][x]);
+				while (tmp < distance && grid->grid[y][x]->x + tmp2 < grid->grid[y + 1][x]->x)
 				{
 					pas = distance / RES;
-					if ((grid->grid[y][x])->z == (grid->grid[y + 1][x])->z)
-						mlx_pixel_put(mlx, win, ft_posx(x, y) + tmp2, ft_posy(grid, x, y) + tmp, 0x000000BB);
+					if ((grid->grid[y][x])->z == (grid->grid[y + 1][x])->z)	
+						mlx_pixel_put(grid->mlx, grid->win, grid->grid[y][x]->x + tmp2, grid->grid[y][x]->y + tmp, 0x000000BB);
 					else
-						mlx_pixel_put(mlx, win, ft_posx(x, y) + tmp2, ft_posy(grid, x, y) -
-						(grid->grid[y][x]->z > grid->grid[y + 1][x]->z ? -tmp : tmp),
-						0x00BB0000);
+						mlx_pixel_put(grid->mlx, grid->win, grid->grid[y][x]->x + tmp2, grid->grid[y][x]->y -
+								(grid->grid[y][x]->z > grid->grid[y + 1][x]->z ? -tmp : tmp),
+								0x00BB0000);
 					tmp++;
 					tmp2 += tmp % pas == 0; 
 				}
 			}
-			mlx_pixel_put(mlx, win, ft_posx(x, y), ft_posy(grid, x, y), 0x00FFFFFF);
+			mlx_pixel_put(grid->mlx, grid->win, grid->grid[y][x]->x, grid->grid[y][x]->y, 0x00FFFFFF);
 			x++;
 		}
 		y++;
 	}
-	ft_del_grid(grid);
-	mlx_loop(mlx);
+	return (1);
+}
+
+int		ft_draw(char *file)
+{
+	t_grid	*grid;
+	if ((grid = (ft_read(file))) == NULL)
+		return (0);
+	ft_draw_lines(grid);
+	ft_draw_lines2(grid);
+	mlx_loop(grid->mlx);
 	return (1);
 }

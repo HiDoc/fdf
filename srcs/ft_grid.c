@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 16:44:36 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/13 14:36:32 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/13 17:36:50 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_del_grid(t_grid *grid)
 	free(grid);
 }
 
-void	ft_ini_grid(t_grid *grid, int y)
+t_grid	*ft_ini_grid(t_grid *grid, int y)
 {
 	int x;
 
@@ -41,21 +41,24 @@ void	ft_ini_grid(t_grid *grid, int y)
 	while (x < grid->size_x)
 	{
 		if ((grid->grid[y][x] = (t_point *)malloc(sizeof(t_point))) == NULL)
-			return ;
+			return (NULL);
 		(grid->grid[y][x])->x = x;
 		(grid->grid[y][x])->y = y;
 		x++;
 	}
+	return (grid);
 }
 
-t_grid	*ft_new_grid(t_point ***tab, int size_x, int size_y)
+t_grid	*ft_map_grid(t_grid *grid)
 {
-	t_grid	*new;
+	ft_map_point(&ft_posx, grid, 'x');
+	ft_map_point(&ft_posy, grid, 'y');
+	return (grid);
+}
 
-	if ((new = (t_grid *)malloc(sizeof(t_grid))) == NULL)
-		return (NULL);
-	new->grid = tab;
-	new->size_x = size_x;
-	new->size_y = size_y;
-	return (new);
+t_grid	*ft_add_mlx(t_grid *grid)
+{
+	grid->mlx = mlx_init();
+	grid->win = mlx_new_window(grid->mlx, 1000,1000, "FDF");
+	return (grid);
 }

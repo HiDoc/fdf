@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 15:29:19 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/13 14:39:34 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/13 17:55:52 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_del_point(t_point *point)
 	free(point);
 }
 
-void	ft_map_point(int (f)(t_point *), t_grid *grid, char coord)
+void	ft_map_point(int (f)(t_point *, int, int), t_grid *grid, char coord)
 {
 	int		y;
 	int		x;
@@ -42,27 +42,25 @@ void	ft_map_point(int (f)(t_point *), t_grid *grid, char coord)
 		while (x < grid->size_x)
 		{
 			if (coord == 'x')
-				(grid->grid[y][x])->x = f(grid->grid[y][x]);
+				(grid->grid[y][x])->x = f(grid->grid[y][x], x, y);
 			else if (coord == 'y')
-				(grid->grid[y][x])->y = f(grid->grid[y][x]);
+				(grid->grid[y][x])->y = f(grid->grid[y][x], x, y);
 			else if (coord == 'z')
-				(grid->grid[y][x])->z = f(grid->grid[y][x]);
+				(grid->grid[y][x])->z = f(grid->grid[y][x], x, y);
 			x++;
 		}
+		y++;
 	}
 }
 
-int		ft_posy(t_grid *grid, int x, int y)
+int		ft_posy(t_point *point, int x, int y)
 {
-	return ((y - (grid->grid[y][x])->z) * RES + 400);
+	(void) x;
+	return ((y - point->z) * RES + 400);
 }
 
-int		ft_posx(int x, int y)
+int		ft_posx(t_point *point, int x, int y)
 {
+	(void) point;
 	return ((x * RES + 200) + (y * RES));
-}
-
-int		real_y(t_grid *grid, int x, int y)
-{
-	return (y - (grid->grid[y][x])->z);
 }

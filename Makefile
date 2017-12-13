@@ -17,7 +17,8 @@ SRC_NAME = main.c \
 		   ft_point.c \
 		   ft_draw.c \
 		   ft_grid.c \
-		   ft_maths.c
+		   ft_maths.c \
+		   ft_utils.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 

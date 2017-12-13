@@ -1,20 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/07 13:32:12 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/13 17:55:01 by fmadura          ###   ########.fr       */
+/*   Created: 2017/12/13 17:03:54 by fmadura           #+#    #+#             */
+/*   Updated: 2017/12/13 17:09:11 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		main(int argc, char **argv)
+void	ft_print_map(t_grid *grid)
 {
-	if (argc > 1)
-		return (ft_draw(argv[1]));
-	return (0);
+	int		x;
+	int		y;
+
+	y = 0;
+	while (y < grid->size_y)
+	{
+		x = 0;
+		while (x < grid->size_x)
+		{
+			ft_putstr("x : ");
+			ft_putnbr(grid->grid[y][x]->x);
+			ft_putstr(" y : ");
+			ft_putnbr(grid->grid[y][x]->y);
+			ft_putstr(" z : ");
+			ft_putnbr(grid->grid[y][x]->z);
+			x++;
+			ft_putchar('\n');
+		}
+		y++;
+	}
+
 }

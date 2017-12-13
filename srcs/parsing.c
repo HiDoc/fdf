@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 14:46:30 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/13 14:16:48 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/13 17:36:11 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,7 @@ t_grid	*ft_read(char *file)
 		return (NULL);
 	if (close(fd) == -1)
 		return (NULL);
+	ft_map_grid(new);
+	ft_add_mlx(new);
 	return (new);
 }
