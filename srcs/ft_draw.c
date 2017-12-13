@@ -6,22 +6,12 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 11:12:34 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/12 16:22:07 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/13 14:37:25 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 # define RES 20
-
-int		ft_posy(t_grid *grid, int x, int y)
-{
-	return (real_y(grid, x, y) * RES + 400);
-}
-
-int		ft_posx(int x, int y)
-{
-	return ((x * RES + 200) + (y * RES));
-}
 
 int		ft_draw(char *file)
 {
@@ -56,13 +46,13 @@ int		ft_draw(char *file)
 				while (tmp < distance)
 				{
 					pas = distance / RES;
-					if (grid->grid[y][x] == grid->grid[y][x + 1])
+					if ((grid->grid[y][x])->z == (grid->grid[y][x + 1])->z)
 					{
 						mlx_pixel_put(mlx, win, ft_posx(x, y) + tmp, ft_posy(grid, x, y), 0x00BB0000);
 					}
 					else
 						mlx_pixel_put(mlx, win, ft_posx(x, y) + tmp2, 
-						ft_posy(grid, x, y) + (grid->grid[y][x] > grid->grid[y][x + 1] ? tmp : -tmp), 0x00AA22AA);
+						ft_posy(grid, x, y) + ((grid->grid[y][x])->z > (grid->grid[y][x + 1])->z ? tmp : -tmp), 0x00AA22AA);
 					tmp++;
 					tmp2 += tmp % pas == 0; 
 				}
@@ -74,23 +64,14 @@ int		ft_draw(char *file)
 			if (y + 1 < grid->size_y)
 			{
 				distance = ft_pythagore(ft_posy(grid, x, y + 1) - ft_posy(grid, x, y), ft_posx(x, y + 1) - ft_posx(x, y));
-				ft_putstr("y + 1:");
-				ft_putendl(ft_itoa(ft_posy(grid, x, y + 1)));
-				ft_putstr("y :");
-				ft_putendl(ft_itoa(ft_posy(grid, x, y)));
-				ft_putstr("x + 1 :");
-				ft_putendl(ft_itoa(ft_posx(x, y + 1)));
-				ft_putstr("x :");
-				ft_putendl(ft_itoa(ft_posx(x, y)));
-				ft_putendl(ft_itoa(distance));
 				while (tmp < distance)
 				{
 					pas = distance / RES;
-					if (grid->grid[y][x] == grid->grid[y + 1][x])
+					if ((grid->grid[y][x])->z == (grid->grid[y + 1][x])->z)
 						mlx_pixel_put(mlx, win, ft_posx(x, y) + tmp2, ft_posy(grid, x, y) + tmp, 0x000000BB);
 					else
 						mlx_pixel_put(mlx, win, ft_posx(x, y) + tmp2, ft_posy(grid, x, y) -
-						(grid->grid[y][x] > grid->grid[y + 1][x] ? -tmp : tmp),
+						(grid->grid[y][x]->z > grid->grid[y + 1][x]->z ? -tmp : tmp),
 						0x00BB0000);
 					tmp++;
 					tmp2 += tmp % pas == 0; 

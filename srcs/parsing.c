@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 14:46:30 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/13 13:14:14 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/13 14:16:48 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		ft_parse_line(int y, t_grid *grid, char *str, int filled)
 	{
 		z = ft_atoi(&str[count]);
 		if (filled)
-			grid->grid[y][x] = z;
+			(grid->grid[y][x])->z = z;
 		while (str[count] && (ft_isdigit(str[count]) || str[count] == '-'))
 			count++;
 		while (str[count] && !(ft_isdigit(str[count])))
@@ -33,18 +33,19 @@ int		ft_parse_line(int y, t_grid *grid, char *str, int filled)
 	}
 	if (!filled)
 	{
-		if ((grid->grid[y] = (int *)malloc(sizeof(int) * x)) == NULL)
+		grid->size_x = x;
+		if ((grid->grid[y] = (t_point **)malloc(sizeof(t_point *) * x)) == NULL)
 			return (0);
+		ft_ini_grid(grid, y);
 		return (ft_parse_line(y, grid, str, 1));
 	}
-	grid->size_x = x;
 	return (1);
 }
 
 int		ft_parse_file(int fd, t_grid *grid, int sized)
 {
 	char	**line;
-	int		**tab;
+	t_point	***tab;
 	int		y;
 	int		x;
 
@@ -61,7 +62,7 @@ int		ft_parse_file(int fd, t_grid *grid, int sized)
 	free(line);
 	if (!sized)
 	{
-		if ((tab = (int **)malloc(sizeof(int *) * y)) == NULL)
+		if ((tab = (t_point ***)malloc(sizeof(t_point **) * y)) == NULL)
 			return (0);
 		grid->grid = tab;
 		grid->size_y = y;
