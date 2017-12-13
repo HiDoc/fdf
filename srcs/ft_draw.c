@@ -6,13 +6,13 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 11:12:34 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/13 18:45:23 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/13 19:02:27 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	ft_draw_lines_sub(t_grid *grid, int y)
+static int	ft_draw_lines_sub(t_grid *grid, int y, int m1, int m2)
 {
 	int tmp;
 	int	x;
@@ -23,17 +23,17 @@ static int	ft_draw_lines_sub(t_grid *grid, int y)
 	while (x + 1 < grid->size_x)
 	{
 		tmp = 0;
-		distance = ft_distance(grid->grid[y][x + 1], grid->grid[y][x]);
+		distance = ft_distance(grid->grid[y][x + m2], grid->grid[y][x]);
 		pas = distance / RES;
-		while (tmp < distance && grid->grid[y][x]->x + tmp/pas < grid->grid[y][x + 1]->x)
+		while (tmp < distance && grid->grid[y][x]->x + tmp/pas < grid->grid[y + m1][x + m2]->x)
 		{
-			if ((grid->grid[y][x])->z == (grid->grid[y][x + 1])->z)
+			if ((grid->grid[y][x])->z == (grid->grid[y + m1][x + m2])->z)
 				mlx_pixel_put(grid->mlx, grid->win,
 				grid->grid[y][x]->x + tmp / pas, grid->grid[y][x]->y, 0x00BB0000);
 			else
 				mlx_pixel_put(grid->mlx, grid->win, grid->grid[y][x]->x + tmp/pas, 
 				grid->grid[y][x]->y + ((grid->grid[y][x])->z > 
-				(grid->grid[y][x + 1])->z ? tmp : -tmp), 0x00AA22AA);
+				(grid->grid[y + m1][x + m2])->z ? tmp : -tmp), 0x00AA22AA);
 			tmp++;
 		}
 		x++;
@@ -48,7 +48,7 @@ int		ft_draw_lines(t_grid *grid)
 	y = 0;
 	while (y < grid->size_y)
 	{
-		ft_draw_lines_sub(grid, y);
+		ft_draw_lines_sub(grid, y, 0, 1);
 		y++;
 	}
 	return (1);
