@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 11:12:34 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/15 15:08:49 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/15 16:46:38 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,44 @@ static void	ft_pix_put(t_grid *grid, t_point *point, int xmod, int ymod)
 			point->color);
 }
 
-static void	ft_draw_lines_sub(t_grid *grid, int y, int x, int b)
+static void ft_draw_line_int(t_grid *grid, t_point *p1, t_point *p2, int dir, int xmod, int ymod)
 {
 	int i;
 	int pas;
-	int	cmp;
+	int cmp;
 
 	i = 0;
-	cmp = grid->grid[y][x]->z - grid->grid[y + b][x + !b]->z;
-	pas = ft_distance(grid->grid[y + b][x + !b], grid->grid[y][x]) / RES;
-	while ((x + i / pas) < (x + RES))
+	cmp = p1->z - p2->z;
+	pas = ft_distance(p1, p2) / RES;
+	while ((p1->x + i / pas) < (p1->x + RES))
+	{
+		if (p1->y + (cmp > 0 ? i : -i) - ymod < p1->y - ymod)
+		{
+			if (!(cmp))
+				ft_pix_put(grid, p1, i / pas + xmod, (dir ? i : 0) - ymod);
+			else
+				ft_pix_put(grid, p1, i / pas + xmod, (cmp > 0 ? i : -i) - ymod);
+		}
+		i++;
+	}
+}
+
+
+static void ft_draw_line_one(t_grid *grid, t_point *p1, t_point *p2, int dir)
+{
+	int i;
+	int pas;
+	int cmp;
+
+	i = 0;
+	cmp = p1->z - p2->z;
+	pas = ft_distance(p1, p2) / RES;
+	while ((p1->x + i / pas) < (p1->x + RES))
 	{
 		if (!(cmp))
-			ft_pix_put(grid, grid->grid[y][x], i / pas, b ? i : 0);
+			ft_pix_put(grid, p1, i / pas, dir ? i : 0);
 		else
-			ft_pix_put(grid, grid->grid[y][x], i / pas, cmp > 0 ? i : -i);
+			ft_pix_put(grid, p1, i / pas, cmp > 0 ? i : -i);
 		i++;
 	}
 }
@@ -52,9 +75,24 @@ int			ft_draw_lines(t_grid *grid)
 		while (x < grid->size_x)
 		{
 			if (x + 1 < grid->size_x)
-				ft_draw_lines_sub(grid, y, x, 0);
+				ft_draw_line_one(grid, grid->grid[y][x], grid->grid[y][x + 1], 0);
 			if (y + 1 < grid->size_y)
-				ft_draw_lines_sub(grid, y, x, 1);
+				ft_draw_line_one(grid, grid->grid[y][x], grid->grid[y + 1][x], 1);
+			if (y + 1 < grid->size_y && x + 1 < grid->size_x)
+			{
+				int xi = 0;
+				int yi;
+				while (xi < RES)
+				{
+					yi = 0;
+					while (yi < RES)
+					{
+						ft_draw_line_int(grid, grid->grid[y][x], grid->grid[y + 1][x], 1, xi, yi);	
+						yi++;
+					}
+					xi++;
+				}
+			}
 			x++;
 		}
 		y++;

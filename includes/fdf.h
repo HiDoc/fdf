@@ -6,13 +6,13 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 14:20:19 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/13 17:35:43 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/15 16:25:42 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
-# define RES 20
+# define RES 30
 # include "libft.h"
 # include "get_next_line.h"
 # include "mlx.h"
@@ -23,7 +23,7 @@ typedef struct	s_point
 	int			x;
 	int			y;
 	int			z;
-	char		*color;
+	int			color;
 }				t_point;
 typedef struct	s_grid
 {
@@ -34,10 +34,10 @@ typedef struct	s_grid
 	void		*win;
 }				t_grid;
 int				ft_distance(t_point *p1, t_point *p2);
-t_point			*ft_new_point(int x, int y, int z);
 void			ft_del_point(t_point *point);
 void			ft_map_point(int (f)(t_point *, int, int), t_grid *g, char c);
 int				ft_posx(t_point *point, int x, int y);
+int				ft_colr(t_point *point, int x, int y);
 int				ft_posy(t_point *point, int x, int y);
 t_grid			*ft_add_mlx(t_grid *grid);
 void			ft_del_grid(t_grid *grid);

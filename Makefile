@@ -65,4 +65,14 @@ fclean: clean
 
 debug: all
 	lldb ./fdf ./maps/elem.fdf
+
+sanitize: $(OBJ)
+	@echo "\033[33mLaunching Makefile for Libft..\033[0m"
+	@make -C ./libft
+	@echo "**************************************"
+	@echo "\033[33mBuilding fdf..\033[0m"
+	@echo "Compiling sources into a program.."
+	@$(CC) $(CFLAGS) -fsanitize=address $(LIB) $(OBJ) $(INC) -framework OpenGL -framework AppKit -o $(NAME)
+	./fdf ./maps/elem.fdf
+
 re: fclean all
