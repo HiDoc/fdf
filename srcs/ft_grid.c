@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 16:44:36 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/13 17:36:50 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/14 12:31:33 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ t_grid	*ft_ini_grid(t_grid *grid, int y)
 	{
 		if ((grid->grid[y][x] = (t_point *)malloc(sizeof(t_point))) == NULL)
 			return (NULL);
-		(grid->grid[y][x])->x = x;
-		(grid->grid[y][x])->y = y;
+		grid->grid[y][x]->x = x;
+		grid->grid[y][x]->y = y;
+		grid->grid[y][x]->color = 0;
 		x++;
 	}
 	return (grid);
@@ -51,6 +52,7 @@ t_grid	*ft_ini_grid(t_grid *grid, int y)
 
 t_grid	*ft_map_grid(t_grid *grid)
 {
+	ft_map_point(&ft_colr, grid, 'c');
 	ft_map_point(&ft_posx, grid, 'x');
 	ft_map_point(&ft_posy, grid, 'y');
 	return (grid);

@@ -6,24 +6,14 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 15:29:19 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/13 17:55:52 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/15 09:56:27 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-t_point	*ft_new_point(int x, int y, int z)
-{
-	t_point	*point;
-
-	if ((point = (t_point *)malloc(sizeof(t_point))) == NULL)
-		return (NULL);
-	point->x = x;
-	point->y = y;
-	point->z = z;
-	point->color = ft_strdup("0x00FFFFFF");
-	return (point->color != NULL ? point : NULL);
-}
+# define RED 0x00BB0000
+# define GRN 0x0000FF00
+# define BLU 0x000000FF
 
 void	ft_del_point(t_point *point)
 {
@@ -34,6 +24,8 @@ void	ft_map_point(int (f)(t_point *, int, int), t_grid *grid, char coord)
 {
 	int		y;
 	int		x;
+	int		replace;
+	t_point	*point;
 
 	y = 0;
 	while (y < grid->size_y)
@@ -41,22 +33,36 @@ void	ft_map_point(int (f)(t_point *, int, int), t_grid *grid, char coord)
 		x = 0;
 		while (x < grid->size_x)
 		{
+			point = grid->grid[y][x];
+			replace = f(point, x, y);
 			if (coord == 'x')
-				(grid->grid[y][x])->x = f(grid->grid[y][x], x, y);
+				point->x = replace;
 			else if (coord == 'y')
-				(grid->grid[y][x])->y = f(grid->grid[y][x], x, y);
+				point->y = replace;
 			else if (coord == 'z')
-				(grid->grid[y][x])->z = f(grid->grid[y][x], x, y);
+				point->z = replace;
+			else if (coord == 'c')
+				point->color = replace;
 			x++;
 		}
 		y++;
 	}
 }
 
+int		ft_colr(t_point *point, int x, int y)
+{
+	int rgb; 
+
+	(void)x;
+	(void)y;
+	rgb = RED + point->z * 25;
+	return (rgb);
+}
+
 int		ft_posy(t_point *point, int x, int y)
 {
 	(void) x;
-	return ((y - point->z) * RES + 400);
+	return ((y - point->z) * RES + 600);
 }
 
 int		ft_posx(t_point *point, int x, int y)
