@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 14:46:30 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/13 17:36:11 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/18 11:52:32 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int		ft_parse_file(int fd, t_grid *grid, int sized)
 	free(line);
 	if (!sized)
 	{
-		if ((tab = (t_point ***)malloc(sizeof(t_point **) * y)) == NULL)
+		if ((tab = (t_point ***)malloc(sizeof(t_point **))) == NULL)
 			return (0);
 		grid->grid = tab;
 		grid->size_y = y;
