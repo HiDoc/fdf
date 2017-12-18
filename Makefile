@@ -25,7 +25,7 @@ OBJ_NAME = $(SRC_NAME:.c=.o)
 SRC = $(addprefix $(SRC_PATH), $(SRC_NAME))
 OBJ = $(addprefix $(OBJ_PATH), $(OBJ_NAME))
 INC = $(addprefix -I, $(INC_PATH))
-LIB = -L ./libft -lft -L ./minilibx -lmlx
+LIB = -L ./minilibx -L ./libft -lft -lmlx 
 
 .PHONY : all clean fclean re
 
@@ -37,7 +37,7 @@ $(NAME): $(OBJ)
 	@echo "**************************************"
 	@echo "\033[33mBuilding fdf..\033[0m"
 	@echo "Compiling sources into a program.."
-	@$(CC) $(CFLAGS) $(LIB) $(OBJ) $(INC) -framework OpenGL -framework AppKit -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(INC) -framework OpenGL -framework AppKit -o $(NAME) $(LIB)
 	$(complete)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
@@ -64,7 +64,7 @@ fclean: clean
 	@echo "**************************************"
 
 debug: all
-	lldb ./fdf ./maps/elem.fdf
+	lldb ./fdf ./maps/basictest.fdf
 
 sanitize: $(OBJ)
 	@echo "\033[33mLaunching Makefile for Libft..\033[0m"

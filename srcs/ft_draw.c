@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 11:12:34 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/18 11:58:42 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/18 17:02:08 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,51 +21,27 @@ static void	ft_pix_put(t_grid *grid, t_point *point, int xmod, int ymod)
 			point->color);
 }
 
-/*static void ft_draw_line_int(t_grid *grid, t_point *p1, t_point *p2, t_point *p3, int dir, int xmod, int ymod)
-{
-	int i;
-	int pas;
-	int pas2;
-
-	i = 0;
-	(void)xmod;
-	(void)ymod;
-	(void)dir;
-	(void)grid;
-	pas = ft_distance(p1, p2) / RES;
-	pas2 = ft_distance(p2, p3) / RES;
-	while (i / pas < RES)
-	{
-		//if (i <= ymod  && i / pas + xmod >= RES)
-		//	ft_pix_put(grid, p1, i / pas + xmod, (dir ? i : 0) - ymod);
-		//if (i <= ymod && i / pas + xmod < RES)
-		//	ft_pix_put(grid, p1, i / pas + xmod, (dir ? i : 0) - ymod);
-		//if (i >= ymod && i / pas + xmod > RES)
-		//	ft_pix_put(grid, p1, i / pas + xmod, (dir ? i : 0) - ymod);
-		//if (i >= ymod && i / pas + xmod < RES)
-		//	ft_pix_put(grid, p1, i / pas + xmod, (dir ? i : 0) - ymod);
-		i++;
-	}
-}*/
-
 static void ft_draw_notflat(t_grid *grid, int x, int y)
 {
 	int pasx;
 	int pasy;
+	int pas;
 	int i;
 	int j;
 	int cmp;
 
 	j = 2;
 	pasx = ft_distance(grid->grid[y][x], grid->grid[y][x + 1]) / RES;
-	cmp = grid->grid[y][x]->z - grid->grid[y][x + 1]->z;
 	pasy = ft_distance(grid->grid[y][x], grid->grid[y + 1][x]) / RES;
-	while (j + 1 < RES && j < grid->grid[y][x]->x)
+	pas = ft_distance(grid->grid[y + 1][x + 1], grid->grid[y][x + 1]) / RES;
+	cmp = grid->grid[y][x]->z - grid->grid[y][x]->z;
+	while (j / pasy < RES || j / pas < RES)
 	{
 		i = 2;
 		while (i / pasx + 1 < RES)
 		{
-			ft_pix_put(grid, grid->grid[y][x], i / pasx + j, (cmp > 0 ? j : -j));
+			if (i / pasx + j / (pas > pasy ? pas : pasy) && (cmp > 0 ? -j : j) - i / pasx)
+				ft_pix_put(grid, grid->grid[y][x], i / pasx + j / (pas > pasy ? pas : pasy), (cmp > 0 ? -j : j) - i / pasx);
 			i++;
 		}
 		j++;

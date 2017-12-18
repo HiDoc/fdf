@@ -6,13 +6,13 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 14:20:19 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/18 11:53:54 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/18 14:30:35 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
-# define RES 30
+# define RES 20
 # include "libft.h"
 # include "get_next_line.h"
 # include "mlx.h"
