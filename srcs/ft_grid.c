@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 16:44:36 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/14 12:31:33 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/28 16:53:46 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,29 @@ void	ft_del_grid(t_grid *grid)
 	free(grid);
 }
 
+void	ft_res_grid(t_grid *grid)
+{
+	int		y;
+	int		x;
+
+	y = 0;
+	while (y < grid->size_y)
+	{
+		x = 0;
+		while (x < grid->size_x)
+		{
+			grid->grid[y][x]->x = x;
+			grid->grid[y][x]->y = y;
+			grid->grid[y][x]->color = 0;
+			x++;
+		}
+		y++;
+	}
+}
+
 t_grid	*ft_ini_grid(t_grid *grid, int y)
 {
-	int x;
+	int		x;
 
 	x = 0;
 	while (x < grid->size_x)

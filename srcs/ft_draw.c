@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 11:12:34 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/18 17:02:08 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/28 19:23:32 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,49 +23,51 @@ static void	ft_pix_put(t_grid *grid, t_point *point, int xmod, int ymod)
 
 static void ft_draw_notflat(t_grid *grid, int x, int y)
 {
-	int pasx;
-	int pasy;
-	int pas;
+	int AB;
+	int AC;
+	int BC;
 	int i;
 	int j;
-	int cmp;
 
-	j = 2;
-	pasx = ft_distance(grid->grid[y][x], grid->grid[y][x + 1]) / RES;
-	pasy = ft_distance(grid->grid[y][x], grid->grid[y + 1][x]) / RES;
-	pas = ft_distance(grid->grid[y + 1][x + 1], grid->grid[y][x + 1]) / RES;
-	cmp = grid->grid[y][x]->z - grid->grid[y][x]->z;
-	while (j / pasy < RES || j / pas < RES)
+	i = 2;
+	AB = ft_distance(grid->grid[y][x], grid->grid[y][x + 1]);
+	AC = ft_distance(grid->grid[y][x], grid->grid[y + 1][x + 1]);
+	BC = ft_distance(grid->grid[y][x + 1], grid->grid[ y+ 1][x + 1]);
+	int cmp = grid->grid[y][x]->z - grid->grid[y][x + 1]->z;
+	while (i < AB)
 	{
-		i = 2;
-		while (i / pasx + 1 < RES)
+		j = 2;
+		while (j < BC)
 		{
-			if (i / pasx + j / (pas > pasy ? pas : pasy) && (cmp > 0 ? -j : j) - i / pasx)
-				ft_pix_put(grid, grid->grid[y][x], i / pasx + j / (pas > pasy ? pas : pasy), (cmp > 0 ? -j : j) - i / pasx);
-			i++;
+			if ((cmp != 0 ||(i < RES && j < RES)) && (i >= j / (BC / RES)))
+			ft_pix_put(grid, grid->grid[y][x], i + j / (BC / RES), j - (cmp < 0 ? i : 0));
+			j++;
 		}
-		j++;
+		i++;
 	}
 }
 
-
-static void ft_draw_flat(t_grid *grid, int x, int y)
+static void ft_draw_notflat2(t_grid *grid, int x, int y)
 {
-	int pas;
+	int AB;
+	int BC;
 	int i;
 	int j;
 
-	j = 2;
-	pas = ft_distance(grid->grid[y][x], grid->grid[y][x + 1]) / RES;
-	while (j + 1 < RES)
+	i = 2;
+	AB = ft_distance(grid->grid[y][x], grid->grid[y + 1][x]);
+	BC = ft_distance(grid->grid[y + 1][x], grid->grid[y + 1][x + 1]);
+	int cmp = grid->grid[y + 1][x]->z - grid->grid[y + 1][x + 1]->z;
+	while (i < BC)
 	{
-		i = 2;
-		while (i / pas + 1 < RES)
+		j = 2;
+		while (j < AB)
 		{
-			ft_pix_put(grid, grid->grid[y][x], i / pas + j, j);
-			i++;
+			if ((cmp != 0 || (j < RES && i < RES)) && (i < j / (AB / RES)))
+				ft_pix_put(grid, grid->grid[y][x], i + j / (AB / RES), j - (cmp < 0 ? i : 0));
+			j++;
 		}
-		j++;
+		i++;
 	}
 }
 
@@ -105,12 +107,15 @@ int			ft_draw_lines(t_grid *grid)
 				ft_draw_line_one(grid, grid->grid[y][x], grid->grid[y + 1][x], 1);
 			if (y + 1 < grid->size_y && x + 1 < grid->size_x)
 			{
-				if (grid->grid[y][x]->z == grid->grid[y][x + 1]->z
-					&& grid->grid[y + 1][x]->z == grid->grid[y][x]->z
-					&& grid->grid[y][x]->z == grid->grid[y + 1][x + 1]->z)
-					ft_draw_flat(grid, x, y);
-				else
+			//	if (grid->grid[y][x]->z == grid->grid[y][x + 1]->z
+			//		&& grid->grid[y + 1][x]->z == grid->grid[y][x]->z
+			//		&& grid->grid[y][x]->z == grid->grid[y + 1][x + 1]->z)
+			//		ft_draw_flat(grid, x, y);
+			//	else
+			//	{
 					ft_draw_notflat(grid, x, y);
+					ft_draw_notflat2(grid, x, y);
+			//	}
 			}
 			x++;
 		}
