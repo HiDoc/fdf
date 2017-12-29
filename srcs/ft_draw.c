@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 11:12:34 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/29 18:07:38 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/29 18:23:59 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ static void ft_draw_notflat(t_grid *grid, int x, int y)
 				ft_pix_put(grid, grid->grid[y][x], i + (j / (AC / RES)), j);
 			else if (A->y != C->y && B->z == C->z && A->z == B->z && i >= j)
 				ft_pix_put(grid, grid->grid[y][x], i + j, j);
-			else if (A->y != C->y && B->z != C->z && A->z == C->z && i >= j)
-				ft_pix_put(grid, grid->grid[y][x], i,j);
+			else if (A->y != C->y && B->z != C->z && A->z == C->z && i >= j / (AC / RES))
+				ft_pix_put(grid, grid->grid[y][x], i + j / (AC / RES), j / (AC / RES));
 			j++;
 		}
 		i++;
