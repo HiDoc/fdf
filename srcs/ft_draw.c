@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 11:12:34 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/28 20:11:34 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/29 18:07:38 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,36 +20,44 @@ static void	ft_pix_put(t_grid *grid, t_point *point, int xmod, int ymod)
 			point->y + ymod,
 			point->color);
 }
-
+#include <stdio.h>
 static void ft_draw_notflat(t_grid *grid, int x, int y)
 {
 	int AB;
+	int AC;
 	int BC;
 	int i;
 	int j;
 
 	i = 2;
-	AB = ft_distance(grid->grid[y][x], grid->grid[y][x + 1]);
-	BC = ft_distance(grid->grid[y][x + 1], grid->grid[ y+ 1][x + 1]);
-	int cmp = grid->grid[y + 1][x + 1]->z - grid->grid[y][x + 1]->z;
-	while (i < AB)
+	t_point *A = grid->grid[y][x];
+	t_point *B = grid->grid[y][x + 1];
+	t_point *C = grid->grid[y + 1][x + 1];
+	AC = ft_distance(A,C);
+	AB = ft_distance(A, B);
+	BC = ft_distance(B, C);
+	int maxx = (C->x - B->x > B->x - A->x) ? C->x - B->x : B->x - A->x;
+	int maxy = (C->y - B->y > B->y - A->y) ? C->y - B->y : B->y - A->y;
+	printf("max x : %d, max y : %d \n", maxx, maxy);
+	while (i + 1 < maxx)
 	{
 		j = 2;
-		while (j < BC)
+		while (j + 1 < maxy)
 		{
-			if (i >= j / (BC / RES))
-			{
-				if ((!cmp && i < RES ) || (!cmp && j < RES))
-					ft_pix_put(grid, grid->grid[y][x], i + j / (BC / RES), j);
-				else if (cmp && i < RES)
-					ft_pix_put(grid, grid->grid[y][x], i + j / (BC / RES), j - (cmp < 0 ? i : 0));
-			}
+			if (A->y == C->y && i >= j)
+				ft_pix_put(grid, grid->grid[y][x], i + (j / (AB / RES)), j - i);
+			else if (A->y != C->y && B->z != C->z && A->z == B->z && i >= j / (AC / RES))
+				ft_pix_put(grid, grid->grid[y][x], i + (j / (AC / RES)), j);
+			else if (A->y != C->y && B->z == C->z && A->z == B->z && i >= j)
+				ft_pix_put(grid, grid->grid[y][x], i + j, j);
+			else if (A->y != C->y && B->z != C->z && A->z == C->z && i >= j)
+				ft_pix_put(grid, grid->grid[y][x], i,j);
 			j++;
 		}
 		i++;
 	}
 }
-
+/**
 static void ft_draw_notflat2(t_grid *grid, int x, int y)
 {
 	int AB;
@@ -60,24 +68,28 @@ static void ft_draw_notflat2(t_grid *grid, int x, int y)
 	i = 2;
 	AB = ft_distance(grid->grid[y][x], grid->grid[y + 1][x]);
 	BC = ft_distance(grid->grid[y + 1][x], grid->grid[y + 1][x + 1]);
-	int cmp = grid->grid[y + 1][x]->z - grid->grid[y + 1][x + 1]->z;
-	while (i < BC)
+	t_point *A = grid->grid[y][x];
+	t_point *B = grid->grid[y + 1][x];
+	t_point *C = grid->grid[y + 1][x + 1];
+	int AC = ft_distance(A,C);
+	int maxx = (C->x - B->x > B->x - A->x) ? C->x - B->x : B->x - A->x;
+	int maxy = (C->y - B->y > B->y - A->y) ? C->y - B->y : B->y - A->y;
+	while (i + 1 < maxx)
 	{
 		j = 2;
-		while (j < AB)
+		while (j + 1 < maxy)
 		{
-			if (i < j / (AB / RES))
-			{
-				if (!cmp && i < RES && j < RES)
-					ft_pix_put(grid, grid->grid[y][x], i + j / (AB / RES), j);
-				else if (cmp)
-					ft_pix_put(grid, grid->grid[y][x], i + j / (AB / RES), j - (cmp < 0 ? i : 0));
-			}
+			if (A->y == C->y && i < j)
+				ft_pix_put(grid, grid->grid[y][x], i + (j / (AB / RES)), j - i);
+			else if (A->y != C->y && B->y == C->y && i < j && A->z == B->z)
+				ft_pix_put(grid, grid->grid[y][x], i + (j / (AB / RES)), j);
+			else if (A->y != C->y && B->y == C->y && i < j / (AC / RES) && A->z != B->z)
+				ft_pix_put(grid, grid->grid[y][x], i + (j / (AB / RES)), j);
 			j++;
 		}
 		i++;
 	}
-}
+}**/
 
 static void ft_draw_line_one(t_grid *grid, t_point *p1, t_point *p2, int dir)
 {
@@ -93,7 +105,7 @@ static void ft_draw_line_one(t_grid *grid, t_point *p1, t_point *p2, int dir)
 		if (!(cmp))
 			ft_pix_put(grid, p1, i / pas, dir ? i : 0);
 		else
-			ft_pix_put(grid, p1, i / pas, cmp > 0 ? i : -i);
+			ft_pix_put(grid, p1, i / pas, cmp > 0 ? i : (dir ? 0 : -i));
 		i++;
 	}
 }
@@ -116,7 +128,7 @@ int			ft_draw_lines(t_grid *grid)
 			if (y + 1 < grid->size_y && x + 1 < grid->size_x)
 			{
 				ft_draw_notflat(grid, x, y);
-				ft_draw_notflat2(grid, x, y);
+				//ft_draw_notflat2(grid, x, y);
 			}
 			x++;
 		}
