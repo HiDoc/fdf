@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 14:46:30 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/18 13:41:38 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/02 17:03:12 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,22 @@ int		ft_parse_line(int y, t_grid *grid, char *str, int filled)
 
 int		ft_parse_file(int fd, t_grid *grid, int sized)
 {
-	char	**line;
+	char	*line;
 	t_point	***tab;
 	int		y;
 	int		x;
 
 	x = 0;
 	y = 0;
-	line = (char **)malloc(sizeof(char *));
-	while (get_next_line(fd, line) > 0)
+	line = NULL;
+	while (get_next_line(fd, &line) > 0)
 	{
 		if (sized)
-			ft_parse_line(y, grid, *line, 0);
-		free(*line);
+			ft_parse_line(y, grid, line, 0);
+		free(line);
 		y++;
 	}
-	free(line);
+	line = NULL;
 	if (!sized)
 	{
 		if ((tab = (t_point ***)malloc(sizeof(t_point **) * y)) == NULL)

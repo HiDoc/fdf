@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 14:20:19 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/18 14:30:35 by fmadura          ###   ########.fr       */
+/*   Updated: 2017/12/28 15:18:26 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_grid			*ft_add_mlx(t_grid *grid);
 void			ft_del_grid(t_grid *grid);
 t_grid			*ft_ini_grid(t_grid *grid, int y);
 t_grid			*ft_map_grid(t_grid *grid);
+void			ft_res_grid(t_grid *grid);
 int				real_y(t_grid *grid, int x, int y);
 int				ft_parse_line(int y, t_grid *grid, char *str, int filled);
 int				ft_parse_file(int fd, t_grid *grid, int sized);
