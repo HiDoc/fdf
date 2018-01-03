@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 11:12:34 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/03 15:46:55 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/03 16:28:14 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static int	ft_get_maxy(t_point *A, t_point *B, t_point *C, t_point *D)
 		maxy = D->y - B->y;	
 	return (maxy);
 }
+
 static int	ft_get_pas(t_point *A, t_point *B, t_point *C, t_point *D)
 {
 	int pas;
@@ -88,103 +89,154 @@ static void ft_put_flat2(t_grid *grid, int pas, int maxy, t_point *A)
 		i++;
 	}	
 }
+static void ft_put_flat3(t_grid *grid, int pas, int maxy, t_point *A)
+{
+	int i;
+	int j;
+
+	i = 0;
+	(void)pas;
+	while (i < RES)
+	{
+		j = 0;
+		while (j < maxy)
+		{	
+			if (i >= j / (pas / RES))
+			{
+				ft_pix_put(grid, A, i + j / (pas / RES), i - j);
+				if (maxy % RES == 0)
+					ft_pix_put(grid, A, i + j / (pas / RES), i - j + 1);
+			}
+			j++;
+		}
+		i++;
+	}	
+}
+
+static void ft_put_flat4(t_grid *grid, int pas, int maxy, t_point *A)
+{
+	int i;
+	int j;
+
+	i = 0;
+	(void)pas;
+	while (i < RES)
+	{
+		j = 0;
+		while (j < maxy)
+		{	
+			if (i > (j / (pas / RES)))
+				ft_pix_put(grid, A, i, j);
+			if (i + j / (pas / RES) < RES)
+			{
+				A++;
+				ft_pix_put(grid, A, i, j + i);
+				A--;
+			}
+			j++;
+		}
+		i++;
+	}	
+}
+
+static void ft_put_flat5(t_grid *grid, int pas, int maxy, t_point *A)
+{
+	int i;
+	int j;
+
+	i = 0;
+	(void)pas;
+	while (i < RES)
+	{
+		j = 0;
+		while (j < maxy)
+		{	
+			if (i < (j / (pas / RES)))
+			{
+				if (maxy % RES == 0)
+					ft_pix_put(grid, A, i + j / (pas / RES), i - j + 1);
+				ft_pix_put(grid, A, i + j / (pas / RES), i - j);
+				}
+			j++;
+		}
+		i++;
+	}	
+}
+
+static void ft_put_flat6(t_grid *grid, int pas, int maxy, t_point *A)
+{
+	int i;
+	int j;
+
+	i = 0;
+	(void)pas;
+	while (i < RES)
+	{
+		j = 0;
+		while (j < maxy)
+		{	
+			if (i + (j / (pas / RES)) < RES)
+			{
+				ft_pix_put(grid, A, i + (j / (pas / RES)), i - j);
+				if (maxy % RES == 0)
+					ft_pix_put(grid, A, i + (j / (pas / RES)), i - j + 1);
+			}
+			j++;
+		}
+		i++;
+	}	
+}
+static void ft_put_flat7(t_grid *grid, int pas, int maxy, t_point *A)
+{
+	int i;
+	int j;
+
+	i = 0;
+	(void)pas;
+	while (i < RES)
+	{
+		j = 0;
+		while (j < maxy)
+		{	
+			if (i < j / (pas / RES))
+				ft_pix_put(grid, A, i, j);
+			j++;
+		}
+		i++;
+	}	
+}
 static void ft_draw_flat(t_grid *grid, int x, int y)
 {
 	t_point *A = grid->grid[y][x];
 	t_point *B = grid->grid[y][x + 1];
 	t_point *C = grid->grid[y + 1][x + 1];
 	t_point *D = grid->grid[y + 1][x];
-	int i;
-	int j;
+	t_trngl T;
+	T.coef = ft_get_pas(A, B, C, D);
+	T.dist = ft_get_maxy(A, B, C, D);
 	int pas;
-	int maxx = RES;
 	int maxy;
 	pas = ft_get_pas(A, B, C, D);
 	maxy = ft_get_maxy(A, B, C, D);
-	printf("pas : %d, maxy : %d \n", pas, maxy);
-	i = 0;
 	if (A->z == B->z && C->z == D->z && A->z >= B->z)
 		ft_put_flat(grid, pas, maxy, A);
 	else if (A->z == D->z && B->z == C->z && A->z < B->z)
 		ft_put_flat2(grid, pas, maxy, B);
-	else if (A->z == D->z && A->z == B->z && A->z < C->z)
-	{
-		while (i < maxx)
-		{
-			j = 0;
-			while (j < maxy)
-			{
-				if (i >= j / (pas / RES))
-				{
-					ft_pix_put(grid, A, i + j / (pas / RES), i - j);
-					if (maxy % maxx == 0)
-						ft_pix_put(grid, A, i + j / (pas / RES), i - j + 1);
-				}
-				j++;
-			}
-			i++;
-		}
-	}
+	else if (A->z == D->z && A->z == B->z && A->z < C->z)	
+		ft_put_flat3(grid, pas, maxy, A);
 	else if (B->z == C->z && B->z == D->z && A->z > C->z)
 		ft_put_flat(grid, pas, maxy, A);
 	else if (A->z == B->z && B->z == C->z && D->z < A->z)
-	{
-		while (i < maxx)
-		{
-			j = 0;
-			while (j < maxy)
-			{
-				if (i > (j / (pas / RES)))
-					ft_pix_put(grid, A, i, j);
-				if (i + j / (pas / RES) < RES)
-					ft_pix_put(grid, B, i, j + i);
-				j++;
-			}
-			i++;
-		}
+		ft_put_flat4(grid, pas, maxy, A);
+	else if (A->z == C->z && A->z == D->z && B->z > A->z)
+	{	
+		ft_put_flat6(grid, pas, maxy, A);
+		ft_put_flat7(grid, ft_distance(B, C), maxy, B);
 	}
-	if (A->z == C->z && A->z == D->z && B->z > A->z)
-	{
-		while (i < maxx)
-		{
-			j = 0;
-			while (j < maxy)
-			{
-				if (i + (j / (pas / RES)) < RES)
-				{
-					ft_pix_put(grid, A, i + (j / (pas / RES)), i - j);
-					if (maxy % maxx == 0)
-						ft_pix_put(grid, A, i + (j / (pas / RES)), i - j + 1);
-				}
-				if (i < j / ((ft_distance(B, C) / RES )))
-					ft_pix_put(grid, B, i, j);
-				j++;
-			}
-			i++;
-		}
-	}
-	i = 0;
-	if (A->z == B->z && A->z == D->z && A->z > C->z)
+	else if (A->z == B->z && A->z == D->z && A->z > C->z)
 		ft_put_flat(grid, pas, maxy, A);
-	i = 0;
-	if (B->z == C->z && B->z == D->z && A->z < C->z)
-	{
-		while (i < maxx)
-		{
-			j = 0;
-			while (j < maxy)
-			{
-				if (i < (j / (pas / RES)))
-				{
-					if (maxy % maxx == 0)
-						ft_pix_put(grid, A, i + j / (pas / RES), i - j + 1);
-					ft_pix_put(grid, A, i + j / (pas / RES), i - j);
-				}
-				j++;
-			}
-			i++;
-		}
-	}
+	else if (B->z == C->z && B->z == D->z && A->z < C->z)	
+		ft_put_flat5(grid, pas, maxy, A);
 }
 static void ft_draw_line_one(t_grid *grid, t_point *p1, t_point *p2, int dir)
 {
