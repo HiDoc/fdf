@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 17:03:54 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/28 16:53:40 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/03 18:55:49 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,22 @@ void	ft_print_map(t_grid *grid)
 		}
 		y++;
 	}
+}
 
+void	ft_pix_put(t_grid *grid, t_point *point, int xmod, int ymod)
+{
+	mlx_pixel_put(grid->mlx,
+			grid->win,
+			point->x + xmod,
+			point->y + ymod,
+			point->color);
+}
+
+void	ft_pix_put_l(t_grid *grid, t_point *point, int xmod, int ymod)
+{
+	mlx_pixel_put(grid->mlx,
+			grid->win,
+			point->x + xmod,
+			point->y + ymod,
+			0x00FFFFFF);
 }

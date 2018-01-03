@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 14:46:30 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/02 17:03:12 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/03 18:53:01 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_grid	*ft_read(char *file)
 		return (NULL);
 	if ((fd = open(file, O_RDONLY)) == -1)
 		return (NULL);
-	if(!(ft_parse_file(fd, new, 0)))
+	if (!(ft_parse_file(fd, new, 0)))
 		return (NULL);
 	if (close(fd) == -1 || (fd = open(file, O_RDONLY)) == -1)
 		return (NULL);

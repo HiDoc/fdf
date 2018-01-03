@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 16:44:36 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/28 16:53:46 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/03 18:51:45 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,6 @@ t_grid	*ft_map_grid(t_grid *grid)
 t_grid	*ft_add_mlx(t_grid *grid)
 {
 	grid->mlx = mlx_init();
-	grid->win = mlx_new_window(grid->mlx, 1000,1000, "FDF");
+	grid->win = mlx_new_window(grid->mlx, 1000, 1000, "FDF");
 	return (grid);
 }

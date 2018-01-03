@@ -18,7 +18,8 @@ SRC_NAME = main.c \
 		   ft_draw.c \
 		   ft_grid.c \
 		   ft_maths.c \
-		   ft_utils.c
+		   ft_utils.c \
+		   ft_fill.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
