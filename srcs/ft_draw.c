@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 11:12:34 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/03 15:06:41 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/03 15:46:55 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,13 @@ static int	ft_get_maxy(t_point *A, t_point *B, t_point *C, t_point *D)
 	int maxy;
 
 	maxy = 0;
-	if (A->z == B->z && C->z == D->z)
+	if ((A->z == B->z || (C->z == B->z && A->z > C->z)) && C->z == D->z)
 		maxy = D->y - A->y;
-	else if (A->z == D->z && B->z == C->z && A->z < B->z)
+	else if ((A->z == D->z || B->z == D->z) && B->z == C->z && A->z < B->z)
 		maxy = A->y - B->y;
-	else if (A->z == D->z && A->z == B->z && A->z < C->z)
-		maxy = D->y - C->y;
-	else if (B->z == C->z && B->z == D->z && A->z > C->z)
-		maxy = D->y - A->y;
-	else if (A->z == B->z && B->z == C->z && D->z < A->z)
-		maxy = D->y - B->y;
-	else if (C->z == D->z && C->z == A->z && B->z > A->z)
-		maxy = D->y - B->y;
-	else if (B->z == D->z && B->z == A->z && A->z > C->z)
-		maxy = C->y - B->y;
-	else if (B->z == D->z && B->z == C->z && A->z < C->z)
-		maxy = A->y - B->y;
+	else if ((A->z == B->z && A->z == D->z && A->z != C->z) || (A->z == C->z 
+	&& ((A->z == B->z && A->z > D->z)||(A->z == D->z && B->z > A->z))))
+		maxy = D->y - B->y;	
 	return (maxy);
 }
 static int	ft_get_pas(t_point *A, t_point *B, t_point *C, t_point *D)
@@ -64,6 +55,7 @@ static void ft_put_flat(t_grid *grid, int pas, int maxy, t_point *A)
 	int i;
 	int j;
 
+	(void)pas;
 	i = 0;
 	while (i < RES)
 	{
@@ -76,7 +68,26 @@ static void ft_put_flat(t_grid *grid, int pas, int maxy, t_point *A)
 		i++;
 	}	
 }
+static void ft_put_flat2(t_grid *grid, int pas, int maxy, t_point *A)
+{
+	int i;
+	int j;
 
+	i = 0;
+	(void)pas;
+	while (i < RES)
+	{
+		j = 0;
+		while (j < maxy)
+		{
+			ft_pix_put(grid, A, i - j / (pas / RES), j + i);
+			if (maxy % RES == 0)
+				ft_pix_put(grid, A, i - j / (pas / RES), j + i + 1);
+			j++;
+		}
+		i++;
+	}	
+}
 static void ft_draw_flat(t_grid *grid, int x, int y)
 {
 	t_point *A = grid->grid[y][x];
@@ -86,28 +97,16 @@ static void ft_draw_flat(t_grid *grid, int x, int y)
 	int i;
 	int j;
 	int pas;
-	int maxx = B->x - A->x;
+	int maxx = RES;
 	int maxy;
 	pas = ft_get_pas(A, B, C, D);
 	maxy = ft_get_maxy(A, B, C, D);
+	printf("pas : %d, maxy : %d \n", pas, maxy);
 	i = 0;
 	if (A->z == B->z && C->z == D->z && A->z >= B->z)
 		ft_put_flat(grid, pas, maxy, A);
 	else if (A->z == D->z && B->z == C->z && A->z < B->z)
-	{
-		while (i < maxx)
-		{
-			j = 0;
-			while (j < maxy)
-			{
-				ft_pix_put(grid, B, i - j / (pas / RES), j + i);
-				if (maxy % maxx == 0)
-					ft_pix_put(grid, B, i - j / (pas / RES), j + i + 1);
-				j++;
-			}
-			i++;
-		}
-	}
+		ft_put_flat2(grid, pas, maxy, B);
 	else if (A->z == D->z && A->z == B->z && A->z < C->z)
 	{
 		while (i < maxx)
@@ -119,7 +118,7 @@ static void ft_draw_flat(t_grid *grid, int x, int y)
 				{
 					ft_pix_put(grid, A, i + j / (pas / RES), i - j);
 					if (maxy % maxx == 0)
-						ft_pix_put(grid, A, i + j / (pas / RES),i - j + 1);
+						ft_pix_put(grid, A, i + j / (pas / RES), i - j + 1);
 				}
 				j++;
 			}
@@ -222,11 +221,7 @@ int			ft_draw_lines(t_grid *grid)
 			if (y + 1 < grid->size_y)
 				ft_draw_line_one(grid, grid->grid[y][x], grid->grid[y + 1][x], 1);
 			if (y + 1 < grid->size_y && x + 1 < grid->size_x)
-			{
 				ft_draw_flat(grid, x, y);
-				//ft_draw_notflat(grid, x, y);
-				//ft_draw_notflat2(grid, x, y);
-			}
 			x++;
 		}
 		y++;
