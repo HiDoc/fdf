@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 18:50:10 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/03 18:51:10 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/04 13:12:45 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,28 +66,28 @@ int		ft_get_coef(t_point *a, t_point *b, t_point *c, t_point *d)
 	return (pas);
 }
 
-void	ft_put_cond(t_grid *grid, t_trngl t, t_point *a)
+void	ft_put_cond(t_fdf *fdf, t_fill t, t_point *a)
 {
 	if (t.swit == 1)
-		ft_pix_put(grid, a, t.i + t.j / (t.coef / RES), t.j);
+		ft_pix_put(fdf, a, t.i + t.j / (t.coef / RES), t.j);
 	if (t.swit == 2)
-		ft_pix_put(grid, a, t.i - t.j / (t.coef / RES), t.j + t.i);
+		ft_pix_put(fdf, a, t.i - t.j / (t.coef / RES), t.j + t.i);
 	if (t.swit == 2 && t.dist % RES == 0)
-		ft_pix_put(grid, a, t.i - t.j / (t.coef / RES), t.j + t.i + 1);
+		ft_pix_put(fdf, a, t.i - t.j / (t.coef / RES), t.j + t.i + 1);
 	if (t.swit == 3 && t.i > t.j / (t.coef / RES))
-		ft_pix_put(grid, a, t.i + t.j / (t.coef / RES), t.i - t.j);
+		ft_pix_put(fdf, a, t.i + t.j / (t.coef / RES), t.i - t.j);
 	if (t.swit == 3 && t.i > t.j / (t.coef / RES) && t.dist % RES == 0)
-		ft_pix_put(grid, a, t.i + t.j / (t.coef / RES), t.i - t.j + 1);
+		ft_pix_put(fdf, a, t.i + t.j / (t.coef / RES), t.i - t.j + 1);
 	if (t.swit == 4 && t.i > (t.j / (t.coef / RES)))
-		ft_pix_put(grid, a, t.i, t.j);
+		ft_pix_put(fdf, a, t.i, t.j);
 	if (t.swit == 5 && t.i < (t.j / (t.coef / RES)) && t.dist % RES == 0)
-		ft_pix_put(grid, a, t.i + t.j / (t.coef / RES), t.i - t.j + 1);
+		ft_pix_put(fdf, a, t.i + t.j / (t.coef / RES), t.i - t.j + 1);
 	if (t.swit == 5 && t.i < (t.j / (t.coef / RES)))
-		ft_pix_put(grid, a, t.i + t.j / (t.coef / RES), t.i - t.j);
+		ft_pix_put(fdf, a, t.i + t.j / (t.coef / RES), t.i - t.j);
 	if (t.swit == 6 && t.i + (t.j / (t.coef / RES)) < RES)
-		ft_pix_put(grid, a, t.i + (t.j / (t.coef / RES)), t.i - t.j);
+		ft_pix_put(fdf, a, t.i + (t.j / (t.coef / RES)), t.i - t.j);
 	if (t.swit == 6 && t.i + (t.j / (t.coef / RES)) < RES && t.dist % RES == 0)
-		ft_pix_put(grid, a, t.i + (t.j / (t.coef / RES)), t.i - t.j + 1);
+		ft_pix_put(fdf, a, t.i + (t.j / (t.coef / RES)), t.i - t.j + 1);
 	if (t.swit == 7 && t.i < (t.j / (t.coef / RES)))
-		ft_pix_put(grid, a, t.i + t.j / (t.coef / RES), t.j);
+		ft_pix_put(fdf, a, t.i + t.j / (t.coef / RES), t.j);
 }

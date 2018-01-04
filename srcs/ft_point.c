@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 15:29:19 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/03 18:54:43 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/04 13:09:31 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_del_point(t_point *point)
 	free(point);
 }
 
-void	ft_map_point(int (f)(t_point *, int, int), t_grid *grid, char coord)
+void	ft_map_point(int (f)(t_point *, int, int), t_fdf *fdf, char coord)
 {
 	int		y;
 	int		x;
@@ -28,12 +28,12 @@ void	ft_map_point(int (f)(t_point *, int, int), t_grid *grid, char coord)
 	t_point	*point;
 
 	y = 0;
-	while (y < grid->size_y)
+	while (y < fdf->size_y)
 	{
 		x = 0;
-		while (x < grid->size_x)
+		while (x < fdf->size_x)
 		{
-			point = grid->grid[y][x];
+			point = fdf->grid[y][x];
 			replace = f(point, x, y);
 			if (coord == 'x')
 				point->x = replace;

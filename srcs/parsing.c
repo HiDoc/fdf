@@ -6,13 +6,13 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 14:46:30 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/03 18:53:01 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/04 13:08:32 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		ft_parse_line(int y, t_grid *grid, char *str, int filled)
+int		ft_parse_line(int y, t_fdf *fdf, char *str, int filled)
 {
 	int		count;
 	int		x;
@@ -24,7 +24,7 @@ int		ft_parse_line(int y, t_grid *grid, char *str, int filled)
 	{
 		z = ft_atoi(&str[count]);
 		if (filled)
-			(grid->grid[y][x])->z = z;
+			(fdf->grid[y][x])->z = z;
 		while (str[count] && (ft_isdigit(str[count]) || str[count] == '-'))
 			count++;
 		while (str[count] && !(ft_isdigit(str[count])))
@@ -33,16 +33,16 @@ int		ft_parse_line(int y, t_grid *grid, char *str, int filled)
 	}
 	if (!filled)
 	{
-		grid->size_x = x;
-		if ((grid->grid[y] = (t_point **)malloc(sizeof(t_point *) * x)) == NULL)
+		fdf->size_x = x;
+		if ((fdf->grid[y] = (t_point **)malloc(sizeof(t_point *) * x)) == NULL)
 			return (0);
-		ft_ini_grid(grid, y);
-		return (ft_parse_line(y, grid, str, 1));
+		ft_ini_fdf(fdf, y);
+		return (ft_parse_line(y, fdf, str, 1));
 	}
 	return (1);
 }
 
-int		ft_parse_file(int fd, t_grid *grid, int sized)
+int		ft_parse_file(int fd, t_fdf *fdf, int sized)
 {
 	char	*line;
 	t_point	***tab;
@@ -55,7 +55,7 @@ int		ft_parse_file(int fd, t_grid *grid, int sized)
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (sized)
-			ft_parse_line(y, grid, line, 0);
+			ft_parse_line(y, fdf, line, 0);
 		free(line);
 		y++;
 	}
@@ -64,18 +64,18 @@ int		ft_parse_file(int fd, t_grid *grid, int sized)
 	{
 		if ((tab = (t_point ***)malloc(sizeof(t_point **) * y)) == NULL)
 			return (0);
-		grid->grid = tab;
-		grid->size_y = y;
+		fdf->grid = tab;
+		fdf->size_y = y;
 	}
 	return (1);
 }
 
-t_grid	*ft_read(char *file)
+t_fdf	*ft_read(char *file)
 {
 	int		fd;
-	t_grid	*new;
+	t_fdf	*new;
 
-	if ((new = (t_grid *)malloc(sizeof(t_grid))) == NULL)
+	if ((new = (t_fdf *)malloc(sizeof(t_fdf))) == NULL)
 		return (NULL);
 	if ((fd = open(file, O_RDONLY)) == -1)
 		return (NULL);
@@ -87,7 +87,7 @@ t_grid	*ft_read(char *file)
 		return (NULL);
 	if (close(fd) == -1)
 		return (NULL);
-	ft_map_grid(new);
+	ft_map_fdf(new);
 	ft_add_mlx(new);
 	return (new);
 }
