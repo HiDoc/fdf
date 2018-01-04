@@ -6,13 +6,22 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 14:46:30 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/04 13:08:32 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/04 15:24:50 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		ft_parse_line(int y, t_fdf *fdf, char *str, int filled)
+static int	ft_next_int(int count, char *str)
+{
+	while (str[count] && (ft_isdigit(str[count]) || str[count] == '-'))
+		count++;
+	while (str[count] && !(ft_isdigit(str[count])))
+		count++;
+	return (count);
+}
+
+int			ft_parse_line(int y, t_fdf *fdf, char *str, int filled)
 {
 	int		count;
 	int		x;
@@ -20,20 +29,19 @@ int		ft_parse_line(int y, t_fdf *fdf, char *str, int filled)
 
 	count = 0;
 	x = 0;
+	while (str[count] && ft_isspace(str[count]))
+		count++;
 	while (str[count])
 	{
 		z = ft_atoi(&str[count]);
 		if (filled)
 			(fdf->grid[y][x])->z = z;
-		while (str[count] && (ft_isdigit(str[count]) || str[count] == '-'))
-			count++;
-		while (str[count] && !(ft_isdigit(str[count])))
-			count++;
-		x++;
+		count = ft_next_int(count, str);
+			x++;
 	}
 	if (!filled)
 	{
-		fdf->size_x = x;
+		fdf->size_x[y] = x;
 		if ((fdf->grid[y] = (t_point **)malloc(sizeof(t_point *) * x)) == NULL)
 			return (0);
 		ft_ini_fdf(fdf, y);
@@ -42,7 +50,7 @@ int		ft_parse_line(int y, t_fdf *fdf, char *str, int filled)
 	return (1);
 }
 
-int		ft_parse_file(int fd, t_fdf *fdf, int sized)
+int			ft_parse_file(int fd, t_fdf *fdf, int sized)
 {
 	char	*line;
 	t_point	***tab;
@@ -62,7 +70,8 @@ int		ft_parse_file(int fd, t_fdf *fdf, int sized)
 	line = NULL;
 	if (!sized)
 	{
-		if ((tab = (t_point ***)malloc(sizeof(t_point **) * y)) == NULL)
+		if (((tab = (t_point ***)malloc(sizeof(t_point **) * y)) == NULL)
+		|| ((fdf->size_x = (int *)malloc(sizeof(int) * y)) == NULL))
 			return (0);
 		fdf->grid = tab;
 		fdf->size_y = y;
@@ -70,7 +79,7 @@ int		ft_parse_file(int fd, t_fdf *fdf, int sized)
 	return (1);
 }
 
-t_fdf	*ft_read(char *file)
+t_fdf		*ft_read(char *file)
 {
 	int		fd;
 	t_fdf	*new;

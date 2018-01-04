@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 17:03:54 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/04 13:12:13 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/04 13:35:33 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_print_map(t_fdf *fdf)
 	while (y < fdf->size_y)
 	{
 		x = 0;
-		while (x < fdf->size_x)
+		while (x < fdf->size_x[y])
 		{
 			ft_putstr("x : ");
 			ft_putnbr(fdf->grid[y][x]->x);

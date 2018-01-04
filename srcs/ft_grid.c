@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_fdf.c                                          :+:      :+:    :+:   */
+/*   ft_grid.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/08 16:44:36 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/04 13:11:42 by fmadura          ###   ########.fr       */
+/*   Created: 2018/01/04 13:14:49 by fmadura           #+#    #+#             */
+/*   Updated: 2018/01/04 13:33:45 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_del_fdf(t_fdf *fdf)
 	while (y < fdf->size_y)
 	{
 		x = 0;
-		while (x < fdf->size_x)
+		while (x < fdf->size_x[y])
 		{
 			ft_del_point(fdf->grid[y][x]);
 			x++;
@@ -42,7 +42,7 @@ void	ft_res_fdf(t_fdf *fdf)
 	while (y < fdf->size_y)
 	{
 		x = 0;
-		while (x < fdf->size_x)
+		while (x < fdf->size_x[y])
 		{
 			fdf->grid[y][x]->x = x;
 			fdf->grid[y][x]->y = y;
@@ -58,7 +58,7 @@ t_fdf	*ft_ini_fdf(t_fdf *fdf, int y)
 	int		x;
 
 	x = 0;
-	while (x < fdf->size_x)
+	while (x < fdf->size_x[y])
 	{
 		if ((fdf->grid[y][x] = (t_point *)malloc(sizeof(t_point))) == NULL)
 			return (NULL);

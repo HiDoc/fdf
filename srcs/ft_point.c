@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 15:29:19 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/04 13:09:31 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/04 13:33:08 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_map_point(int (f)(t_point *, int, int), t_fdf *fdf, char coord)
 	while (y < fdf->size_y)
 	{
 		x = 0;
-		while (x < fdf->size_x)
+		while (x < fdf->size_x[y])
 		{
 			point = fdf->grid[y][x];
 			replace = f(point, x, y);
