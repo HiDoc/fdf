@@ -6,13 +6,13 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 13:14:49 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/04 13:33:45 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/05 16:44:44 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_del_fdf(t_fdf *fdf)
+void	ft_del_grid(t_fdf *fdf)
 {
 	int		y;
 	int		x;
@@ -30,10 +30,9 @@ void	ft_del_fdf(t_fdf *fdf)
 		y++;
 	}
 	free(fdf->grid);
-	free(fdf);
 }
 
-void	ft_res_fdf(t_fdf *fdf)
+void	ft_res_grid(t_fdf *fdf)
 {
 	int		y;
 	int		x;
@@ -53,7 +52,7 @@ void	ft_res_fdf(t_fdf *fdf)
 	}
 }
 
-t_fdf	*ft_ini_fdf(t_fdf *fdf, int y)
+t_fdf	*ft_ini_line(t_fdf *fdf, int y)
 {
 	int		x;
 
@@ -67,20 +66,5 @@ t_fdf	*ft_ini_fdf(t_fdf *fdf, int y)
 		fdf->grid[y][x]->color = 0;
 		x++;
 	}
-	return (fdf);
-}
-
-t_fdf	*ft_map_fdf(t_fdf *fdf)
-{
-	ft_map_point(&ft_colr, fdf, 'c');
-	ft_map_point(&ft_posx, fdf, 'x');
-	ft_map_point(&ft_posy, fdf, 'y');
-	return (fdf);
-}
-
-t_fdf	*ft_add_mlx(t_fdf *fdf)
-{
-	fdf->mlx = mlx_init();
-	fdf->win = mlx_new_window(fdf->mlx, 1000, 1000, "FDF");
 	return (fdf);
 }

@@ -6,11 +6,23 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 14:46:30 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/04 15:24:50 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/05 16:59:48 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+static int	ft_is_file_valid(char *str)
+{
+	int count;
+
+	count = (int)ft_strlen(str);
+	if (count < 4)
+		return (0);
+	if (ft_strncmp(&str[count - 4], ".fdf", 4) != 0)
+	   return (0);
+	return (1);	
+}
 
 static int	ft_next_int(int count, char *str)
 {
@@ -37,14 +49,14 @@ int			ft_parse_line(int y, t_fdf *fdf, char *str, int filled)
 		if (filled)
 			(fdf->grid[y][x])->z = z;
 		count = ft_next_int(count, str);
-			x++;
+		x++;
 	}
 	if (!filled)
 	{
 		fdf->size_x[y] = x;
 		if ((fdf->grid[y] = (t_point **)malloc(sizeof(t_point *) * x)) == NULL)
 			return (0);
-		ft_ini_fdf(fdf, y);
+		ft_ini_line(fdf, y);
 		return (ft_parse_line(y, fdf, str, 1));
 	}
 	return (1);
@@ -84,6 +96,8 @@ t_fdf		*ft_read(char *file)
 	int		fd;
 	t_fdf	*new;
 
+	if (!(ft_is_file_valid(file)))
+		return (NULL);
 	if ((new = (t_fdf *)malloc(sizeof(t_fdf))) == NULL)
 		return (NULL);
 	if ((fd = open(file, O_RDONLY)) == -1)
@@ -96,7 +110,6 @@ t_fdf		*ft_read(char *file)
 		return (NULL);
 	if (close(fd) == -1)
 		return (NULL);
-	ft_map_fdf(new);
-	ft_add_mlx(new);
+	ft_ini_fdf(new);
 	return (new);
 }

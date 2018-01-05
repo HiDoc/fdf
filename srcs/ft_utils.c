@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 17:03:54 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/04 13:35:33 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/05 17:13:17 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_print_map(t_fdf *fdf)
 	}
 }
 
-void	ft_pix_put(t_fdf *fdf, t_point *point, int xmod, int ymod)
+void	ft_pix_put_flat(t_fdf *fdf, t_point *point, int xmod, int ymod)
 {
 	mlx_pixel_put(fdf->mlx,
 			fdf->win,
@@ -45,6 +45,17 @@ void	ft_pix_put(t_fdf *fdf, t_point *point, int xmod, int ymod)
 			point->color);
 }
 
+void	ft_pix_put(t_fdf *fdf, t_point *point, int xmod, int ymod)
+{
+	int color = point->color - ymod;
+	if (ymod > 0 && point->color == 0x00BB0000)
+		color = 0x00BB0000;
+	mlx_pixel_put(fdf->mlx,
+			fdf->win,
+			point->x + xmod,
+			point->y + ymod,
+			color);
+}
 void	ft_pix_put_l(t_fdf *fdf, t_point *point, int xmod, int ymod)
 {
 	mlx_pixel_put(fdf->mlx,

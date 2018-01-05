@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 15:29:19 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/04 13:33:08 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/05 17:09:27 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_del_point(t_point *point)
 	free(point);
 }
 
-void	ft_map_point(int (f)(t_point *, int, int), t_fdf *fdf, char coord)
+void	ft_map_point(int (f)(t_fdf *fdf, t_point *, int, int), t_fdf *fdf, char coord)
 {
 	int		y;
 	int		x;
@@ -34,7 +34,7 @@ void	ft_map_point(int (f)(t_point *, int, int), t_fdf *fdf, char coord)
 		while (x < fdf->size_x[y])
 		{
 			point = fdf->grid[y][x];
-			replace = f(point, x, y);
+			replace = f(fdf, point, x, y);
 			if (coord == 'x')
 				point->x = replace;
 			else if (coord == 'y')
@@ -49,24 +49,25 @@ void	ft_map_point(int (f)(t_point *, int, int), t_fdf *fdf, char coord)
 	}
 }
 
-int		ft_colr(t_point *point, int x, int y)
+int		ft_colr(t_fdf *fdf, t_point *point, int x, int y)
 {
 	int		rgb;
-
+	
 	(void)x;
 	(void)y;
+	(void)fdf;
 	rgb = RED + point->z * 25;
 	return (rgb);
 }
 
-int		ft_posy(t_point *point, int x, int y)
+int		ft_posy(t_fdf *fdf, t_point *point, int x, int y)
 {
 	(void)x;
-	return ((y - point->z) * RES + 600);
+	return ((y - point->z) * fdf->res + 600);
 }
 
-int		ft_posx(t_point *point, int x, int y)
+int		ft_posx(t_fdf *fdf, t_point *point, int x, int y)
 {
 	(void)point;
-	return ((x * RES + 200) + (y * RES));
+	return ((x * fdf->res + 200) + (y * fdf->res));
 }
