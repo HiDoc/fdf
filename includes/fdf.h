@@ -6,13 +6,12 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 13:05:57 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/05 17:14:10 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/06 17:12:04 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
-# define RES 20
 # include "libft.h"
 # include "get_next_line.h"
 # include "mlx.h"
@@ -36,6 +35,8 @@ typedef struct	s_fdf
 	int			y_start;
 	int			x_end;
 	int			y_end;
+	int			x_win;
+	int			y_win;
 	void		*mlx;
 	void		*win;
 }				t_fdf;
@@ -52,7 +53,8 @@ int				ft_parse_line(int y, t_fdf *fdf, char *str, int filled);
 int				real_y(t_fdf *fdf, int x, int y);
 t_fdf			*ft_add_mlx(t_fdf *fdf);
 t_fdf			*ft_ini_fdf(t_fdf *fdf);
-t_fdf			*ft_max_fdf(t_fdf *fdf);
+t_fdf			*ft_max_y(t_fdf *fdf);
+t_fdf			*ft_max_x(t_fdf *fdf);
 t_fdf			*ft_ini_line(t_fdf *fdf, int y);
 t_fdf			*ft_map_fdf(t_fdf *fdf);
 void			ft_map_point(int (f)(t_fdf *, t_point *, int, int), t_fdf *g, char c);

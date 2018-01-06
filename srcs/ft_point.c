@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 15:29:19 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/05 17:09:27 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/06 17:10:24 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ int		ft_colr(t_fdf *fdf, t_point *point, int x, int y)
 int		ft_posy(t_fdf *fdf, t_point *point, int x, int y)
 {
 	(void)x;
-	return ((y - point->z) * fdf->res + 600);
+	return ((y - point->z) * fdf->res);
 }
 
 int		ft_posx(t_fdf *fdf, t_point *point, int x, int y)
 {
 	(void)point;
-	return ((x * fdf->res + 200) + (y * fdf->res));
+	return ((x * fdf->res) + (y * fdf->res));
 }
