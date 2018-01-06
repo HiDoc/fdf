@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 17:03:54 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/06 17:34:36 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/06 19:32:33 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	ft_pix_put_flat(t_fdf *fdf, t_point *point, int xmod, int ymod)
 {
 	mlx_pixel_put(fdf->mlx,
 			fdf->win,
-			point->x + xmod,
-			point->y + ymod + abs(fdf->y_start),
+			point->x + xmod + (fdf->x_win / 2 - fdf->x_end / 2),
+			point->y + ymod + abs(fdf->y_start) + fdf->y_win / 2,
 			point->color);
 }
 
@@ -52,15 +52,21 @@ void	ft_pix_put(t_fdf *fdf, t_point *point, int xmod, int ymod)
 		color = 0x00BB0000;
 	mlx_pixel_put(fdf->mlx,
 			fdf->win,
-			point->x + xmod,
-			point->y + ymod + abs(fdf->y_start),
+			point->x + xmod + (fdf->x_win / 2 - fdf->x_end / 2),
+			point->y + ymod + abs(fdf->y_start) + fdf->y_win / 2,
 			color);
 }
 void	ft_pix_put_l(t_fdf *fdf, t_point *point, int xmod, int ymod)
 {
-	mlx_pixel_put(fdf->mlx,
-			fdf->win,
-			point->x + xmod,
-			point->y + ymod + abs(fdf->y_start),
-			0x00FFFFFF);
+//	mlx_pixel_put(fdf->mlx,
+//			fdf->win,
+//			point->x + xmod + (fdf->x_win / 2 - fdf->x_end / 2),
+//			point->y + ymod + abs(fdf->y_start),
+//			0x00000000);
+//			;
+	(void)fdf;
+	(void)point;
+	(void)xmod;
+	(void)ymod;
+
 }

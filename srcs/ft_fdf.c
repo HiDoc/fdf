@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 16:45:05 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/06 17:32:05 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/06 19:32:38 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,15 @@ t_fdf		*ft_max_x(t_fdf *fdf)
 
 	count = 0;
 	max = 0;
-	if (fdf->size_y > -1)
-	{		
-		while (count <= fdf->size_y)
-		{
-			if (fdf->size_x[count] + count > max)
-				max = fdf->size_x[count] + count;
-			count++;
-		}
+	while (count < fdf->size_y)
+	{
+		if (fdf->size_x[count] + count > max)
+			max = fdf->size_x[count] + count;
+		count++;
 	}
 	fdf->x_start = 0;
-	fdf->x_end = max;
-	fdf->x_end *= 10;
+	fdf->x_end = max * fdf->res;
+	printf("%d\n",fdf->x_end);
 	return (fdf);
 }
 
@@ -84,9 +81,13 @@ t_fdf		*ft_ini_fdf(t_fdf *fdf)
 	fdf->y_start = 0;
 	fdf->x_win = 800;
 	fdf->y_win = 800;
+	fdf->x_end = 0;
 	ft_map_fdf(fdf);
 	ft_max_x(fdf);
 	ft_max_y(fdf);
+	printf("%d\n",fdf->x_end);
+	printf("%d\n",fdf->y_end);
+	printf("%d\n",fdf->y_start);
 	ft_add_mlx(fdf);
 	return (fdf);
 }
