@@ -17,14 +17,16 @@ SRC_NAME = main.c \
 		   ft_point.c \
 		   ft_draw.c \
 		   ft_grid.c \
-		   ft_maths.c
+		   ft_maths.c \
+		   ft_utils.c \
+		   ft_fdf.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
 SRC = $(addprefix $(SRC_PATH), $(SRC_NAME))
 OBJ = $(addprefix $(OBJ_PATH), $(OBJ_NAME))
 INC = $(addprefix -I, $(INC_PATH))
-LIB = -L ./libft -lft -L ./minilibx -lmlx
+LIB = -L ./minilibx -L ./libft -lft -lmlx 
 
 .PHONY : all clean fclean re
 
@@ -36,7 +38,7 @@ $(NAME): $(OBJ)
 	@echo "**************************************"
 	@echo "\033[33mBuilding fdf..\033[0m"
 	@echo "Compiling sources into a program.."
-	@$(CC) $(CFLAGS) $(LIB) $(OBJ) $(INC) -framework OpenGL -framework AppKit -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(INC) -framework OpenGL -framework AppKit -o $(NAME) $(LIB)
 	$(complete)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
@@ -63,5 +65,15 @@ fclean: clean
 	@echo "**************************************"
 
 debug: all
-	lldb ./fdf ./maps/elem.fdf
+	lldb ./fdf ./maps/basictest.fdf
+
+sanitize: $(OBJ)
+	@echo "\033[33mLaunching Makefile for Libft..\033[0m"
+	@make -C ./libft
+	@echo "**************************************"
+	@echo "\033[33mBuilding fdf..\033[0m"
+	@echo "Compiling sources into a program.."
+	@$(CC) $(CFLAGS) -fsanitize=address $(LIB) $(OBJ) $(INC) -framework OpenGL -framework AppKit -o $(NAME)
+	./fdf ./maps/elem.fdf
+
 re: fclean all

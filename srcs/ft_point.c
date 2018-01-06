@@ -6,19 +6,68 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 15:29:19 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/08 16:36:33 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/06 17:10:24 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#define RED 0x00BB0000
+#define GRN 0x0000FF00
+#define BLU 0x000000FF
 
-t_point			*ft_new_point(int z)
+void	ft_del_point(t_point *point)
 {
+	free(point);
+}
+
+void	ft_map_point(int (f)(t_fdf *fdf, t_point *, int, int), t_fdf *fdf, char coord)
+{
+	int		y;
+	int		x;
+	int		replace;
 	t_point	*point;
 
-	if ((point = (t_point *)malloc(sizeof(t_point))) == NULL)
-		return (NULL);
-	point->z = z;
-	point->color = "0x00FFFFFF";
-	return (point);
+	y = 0;
+	while (y < fdf->size_y)
+	{
+		x = 0;
+		while (x < fdf->size_x[y])
+		{
+			point = fdf->grid[y][x];
+			replace = f(fdf, point, x, y);
+			if (coord == 'x')
+				point->x = replace;
+			else if (coord == 'y')
+				point->y = replace;
+			else if (coord == 'z')
+				point->z = replace;
+			else if (coord == 'c')
+				point->color = replace;
+			x++;
+		}
+		y++;
+	}
+}
+
+int		ft_colr(t_fdf *fdf, t_point *point, int x, int y)
+{
+	int		rgb;
+	
+	(void)x;
+	(void)y;
+	(void)fdf;
+	rgb = RED + point->z * 25;
+	return (rgb);
+}
+
+int		ft_posy(t_fdf *fdf, t_point *point, int x, int y)
+{
+	(void)x;
+	return ((y - point->z) * fdf->res);
+}
+
+int		ft_posx(t_fdf *fdf, t_point *point, int x, int y)
+{
+	(void)point;
+	return ((x * fdf->res) + (y * fdf->res));
 }

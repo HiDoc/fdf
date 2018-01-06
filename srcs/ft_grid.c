@@ -5,40 +5,66 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/08 16:44:36 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/12 15:04:27 by fmadura          ###   ########.fr       */
+/*   Created: 2018/01/04 13:14:49 by fmadura           #+#    #+#             */
+/*   Updated: 2018/01/06 16:25:34 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_del_grid(t_grid *grid)
+void	ft_del_grid(t_fdf *fdf)
 {
 	int		y;
+	int		x;
 
 	y = 0;
-	while (y < grid->size_y)
+	while (y < fdf->size_y)
 	{
-		free(grid->grid[y]);
+		x = 0;
+		while (x < fdf->size_x[y])
+		{
+			ft_del_point(fdf->grid[y][x]);
+			x++;
+		}
+		free(fdf->grid[y]);
 		y++;
 	}
-	free(grid->grid);
-	free(grid);
+	free(fdf->grid);
 }
 
-t_grid	*ft_new_grid(int **tab, int size_x, int size_y)
+void	ft_res_grid(t_fdf *fdf)
 {
-	t_grid	*new;
+	int		y;
+	int		x;
 
-	if ((new = (t_grid *)malloc(sizeof(t_grid))) == NULL)
-		return (NULL);
-	new->grid = tab;
-	new->size_x = size_x;
-	new->size_y = size_y;
-	return (new);
+	y = 0;
+	while (y < fdf->size_y)
+	{
+		x = 0;
+		while (x < fdf->size_x[y])
+		{
+			fdf->grid[y][x]->x = x;
+			fdf->grid[y][x]->y = y;
+			fdf->grid[y][x]->color = 0;
+			x++;
+		}
+		y++;
+	}
 }
 
-int		real_y(t_grid *grid, int x, int y)
+t_fdf	*ft_ini_line(t_fdf *fdf, int y)
 {
-	return (y - grid->grid[y][x]);
+	int		x;
+
+	x = 0;
+	while (x < fdf->size_x[y])
+	{
+		if ((fdf->grid[y][x] = (t_point *)malloc(sizeof(t_point))) == NULL)
+			return (NULL);
+		fdf->grid[y][x]->x = x;
+		fdf->grid[y][x]->y = y;
+		fdf->grid[y][x]->color = 0;
+		x++;
+	}
+	return (fdf);
 }

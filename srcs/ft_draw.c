@@ -5,103 +5,180 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/08 11:12:34 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/12 16:22:07 by fmadura          ###   ########.fr       */
+/*   Created: 2018/01/03 19:01:30 by fmadura           #+#    #+#             */
+/*   Updated: 2018/01/05 17:29:59 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-# define RES 20
 
-int		ft_posy(t_grid *grid, int x, int y)
+static void ft_quad(t_fdf *fdf, int x, int y, t_point *a)
 {
-	return (real_y(grid, x, y) * RES + 400);
+	int i = 0;
+	int j = 0;
+	t_point *b = fdf->grid[y][x + 1];
+	t_point *c = fdf->grid[y + 1][x];
+	int hauteur;
+
+   	hauteur = a->z == b->z ? fdf->grid[y + 1][x + 1]->y - a->y : a->y - b->y;
+	while (i < fdf->res)
+	{
+		j = 0;
+		while (j < hauteur)
+		{
+			if (a->z == b->z)
+			{
+				if (a->z == b->z && a->z == c->z)
+					ft_pix_put_flat(fdf, a, i + j / ft_coef(fdf, a, c), j);
+				else
+					ft_pix_put(fdf, a, i + j / ft_coef(fdf, a, c), j);
+			}
+			else if (a->z != b->z)
+			{	
+				ft_pix_put(fdf, a, i + j / ft_coef(fdf, a, b), -j + i);
+				ft_pix_put(fdf, a, i + j / ft_coef(fdf, a, b), -j + i + 1);
+			}
+			j++;
+		}
+		i++;
+	}
 }
 
-int		ft_posx(int x, int y)
+static void	ft_trg(t_fdf *fdf, t_point *a, t_point *b, t_point *c)
 {
-	return ((x * RES + 200) + (y * RES));
+	int i = 0;
+	int j = 0;
+	int hauteur;
+
+	hauteur = fmax(fmax(a->z, b->z), fmax(c->z, 1)) - fmin(fmin(a->z, b->z),c->z);
+	if ((c->y > b->y && c->y <= a->y && c->z == a->z && a->z < b->z))
+		hauteur++;
+	if (a->y > b->y && a->y < c->y && a->z >= c->z&&b->x == c->x && c->z < b->z && i >= j / ft_coef(fdf, a, b))
+		hauteur++;
+	else if (a->y == b->y && a->y < c->y)
+		hauteur++;
+	else if (b->z == c->z && a->z > c->z)	
+		hauteur++;
+	while (i < fdf->res)
+	{
+		j = 0;
+		while (j < fdf->res * hauteur)
+		{
+			if (a->y > b->y && a->y < c->y  &&  a->z >= c->z && c->z <= b->z)
+			{
+				if (b->x != c->x && i < j /ft_coef(fdf, b, c))
+				{
+					ft_pix_put(fdf, b, -i - j / ft_coef(fdf, b,c),j -i );
+					ft_pix_put(fdf, b, -i - j / ft_coef(fdf, b,c),j -i +1 );
+				}
+				else if (b->x == c->x && i > j / ft_coef(fdf, a, b))
+				{
+					ft_pix_put(fdf, c, -i + j / ft_coef(fdf, a, b), -j -i);
+					ft_pix_put(fdf, c, -i + j / ft_coef(fdf, a, b), -j -i + 1);
+				}
+			}
+		else if ((c->y > b->y && c->y <= a->y && c->z == a->z && a->z < b->z) && i < j / ft_coef(fdf, b, c))
+				ft_pix_put(fdf, b, i, j);
+			else 	if (a->y == b->y && a->y < c->y && a->z != c->z&& i + j / ft_coef(fdf, a,c) <= fdf->res)
+				ft_pix_put(fdf, a, i + j / ft_coef(fdf, a,c), j);
+			else if (a->y > b->y && a->y > c->y && b->z == c->z && i - j / ft_coef(fdf, a,c) >= 0)
+			{
+				ft_pix_put(fdf, b, i - j / ft_coef(fdf, a,c), j + i);
+				ft_pix_put(fdf, b, i - j / ft_coef(fdf, a,c), j + i + 1);
+			}
+			else if (b->z == c->z && a->y < c->y && i - j / ft_coef(fdf, a,b) < 0 && ft_distance(a,b) > fdf->res
+					&& ft_distance(b,c) == fdf->res)	
+				ft_pix_put(fdf, a, i + j / ft_coef(fdf, a, b), j);
+			else if (a->z > b->y && a->y > c->y && b->z == c->z && i - j / ft_coef(fdf, a,c) >= 0)
+				ft_pix_put(fdf, a, i, j);
+			j++;
+		}
+		i++;
+	}
 }
 
-int		ft_draw(char *file)
+static void	ft_fill(t_fdf *fdf, int x, int y)
 {
-	void	*mlx;
-	void	*win;
-	t_grid	*grid;
-	int		x;
+	t_point *a;
+	t_point *b;
+	t_point *c;
+	t_point *d;
+
+	a = fdf->grid[y][x];
+	b = fdf->grid[y][x + 1];
+	c = fdf->grid[y + 1][x + 1];
+	d = fdf->grid[y + 1][x];
+	(void)ft_quad;
+	if ((a->z == b->z && c->z == d->z && a->z >= c->z) || (a->z == d->z && b->z == c->z && a->z < b->z))
+		ft_quad(fdf, x, y, a);
+	else	
+	{
+		ft_trg(fdf, a, b, d);	
+		ft_trg(fdf, d, b, c);	
+		if ((b->z == c->z && b->z == d->z && a->z > b->z) || (a->z == d->z && a->z == b->z && a->z < c->z))
+		{
+			ft_trg(fdf, a, c, d);
+		}
+	}
+}
+
+static void	ft_draw_line_one(t_fdf *fdf, t_point *p1, t_point *p2, int dir)
+{
+	int		i;
+	int		coef;
+	int		cmp;
+
+	i = 0;
+	cmp = p1->z - p2->z;
+	coef = ft_distance(p1, p2) / fdf->res;
+	while (i / coef < fdf->res)
+	{
+		if (!(cmp))
+			ft_pix_put_l(fdf, p1, i / coef, dir ? i : 0);
+		else
+		{
+			if (cmp > 0)
+				ft_pix_put_l(fdf, p1, i / coef, i);
+			else
+				ft_pix_put_l(fdf, p1, i / coef, dir ? 0 : -i);
+		}
+		i++;
+	}
+}
+
+int			ft_draw_lines(t_fdf *fdf)
+{
 	int		y;
-	int		tmp;
-	int		tmp2;
-	int		pas;
-	int		distance;
+	int		x;
+	t_point *a;
 
-	mlx = mlx_init();
-	win = mlx_new_window(mlx, 1000, 1000, "FDF");
-	if ((grid = (ft_read(file))) == NULL)
-		return (0);
 	y = 0;
-	distance = 0;
-	while (y < grid->size_y)
+	while (y < fdf->size_y)
 	{
 		x = 0;
-		while (x < grid->size_x)
+		while (x < fdf->size_x[y])
 		{
-			tmp = 0;
-			tmp2 = 0;
-			pas = 0;
-			// Remplit de facon horizontale
-			if (x + 1 < grid->size_x)
-			{
-				distance = ft_pythagore(ft_posx(x + 1, y) - ft_posx(x, y), (ft_posy(grid, x + 1, y) - ft_posy(grid, x, y)));
-				while (tmp < distance)
-				{
-					pas = distance / RES;
-					if (grid->grid[y][x] == grid->grid[y][x + 1])
-					{
-						mlx_pixel_put(mlx, win, ft_posx(x, y) + tmp, ft_posy(grid, x, y), 0x00BB0000);
-					}
-					else
-						mlx_pixel_put(mlx, win, ft_posx(x, y) + tmp2, 
-						ft_posy(grid, x, y) + (grid->grid[y][x] > grid->grid[y][x + 1] ? tmp : -tmp), 0x00AA22AA);
-					tmp++;
-					tmp2 += tmp % pas == 0; 
-				}
-			}
-			tmp = 0;
-			tmp2 = 0;
-			pas = 0;
-			// Remplit de facon verticale
-			if (y + 1 < grid->size_y)
-			{
-				distance = ft_pythagore(ft_posy(grid, x, y + 1) - ft_posy(grid, x, y), ft_posx(x, y + 1) - ft_posx(x, y));
-				ft_putstr("y + 1:");
-				ft_putendl(ft_itoa(ft_posy(grid, x, y + 1)));
-				ft_putstr("y :");
-				ft_putendl(ft_itoa(ft_posy(grid, x, y)));
-				ft_putstr("x + 1 :");
-				ft_putendl(ft_itoa(ft_posx(x, y + 1)));
-				ft_putstr("x :");
-				ft_putendl(ft_itoa(ft_posx(x, y)));
-				ft_putendl(ft_itoa(distance));
-				while (tmp < distance)
-				{
-					pas = distance / RES;
-					if (grid->grid[y][x] == grid->grid[y + 1][x])
-						mlx_pixel_put(mlx, win, ft_posx(x, y) + tmp2, ft_posy(grid, x, y) + tmp, 0x000000BB);
-					else
-						mlx_pixel_put(mlx, win, ft_posx(x, y) + tmp2, ft_posy(grid, x, y) -
-						(grid->grid[y][x] > grid->grid[y + 1][x] ? -tmp : tmp),
-						0x00BB0000);
-					tmp++;
-					tmp2 += tmp % pas == 0; 
-				}
-			}
-			mlx_pixel_put(mlx, win, ft_posx(x, y), ft_posy(grid, x, y), 0x00FFFFFF);
+			a = fdf->grid[y][x];
+			if (y + 1 < fdf->size_y && x + 1 < fdf->size_x[y] && x + 1 < fdf->size_x[y + 1])
+				ft_fill(fdf, x, y);
+			if (x + 1 < fdf->size_x[y])
+				ft_draw_line_one(fdf, a, fdf->grid[y][x + 1], 0);
+			if (y + 1 < fdf->size_y && x < fdf->size_x[y + 1])
+				ft_draw_line_one(fdf, a, fdf->grid[y + 1][x], 1);
 			x++;
 		}
 		y++;
 	}
-	ft_del_grid(grid);
-	mlx_loop(mlx);
+	return (1);
+}
+
+int			ft_draw(char *file)
+{
+	t_fdf	*fdf;
+
+	if ((fdf = (ft_read(file))) == NULL)
+		return (0);
+	ft_draw_lines(fdf);
+	mlx_loop(fdf->mlx);
 	return (1);
 }
