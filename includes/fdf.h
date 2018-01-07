@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 13:05:57 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/06 17:12:04 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/07 14:35:56 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct	s_fdf
 	int			y_end;
 	int			x_win;
 	int			y_win;
+	int			x_center;
+	int			y_center;
 	void		*mlx;
 	void		*win;
 }				t_fdf;

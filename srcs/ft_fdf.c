@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 16:45:05 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/06 19:32:38 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/07 14:38:23 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ t_fdf		*ft_ini_fdf(t_fdf *fdf)
 	ft_map_fdf(fdf);
 	ft_max_x(fdf);
 	ft_max_y(fdf);
+	fdf->x_center = fdf->x_win / 2 - fdf->x_end / 2;
+	fdf->y_center = abs(fdf->y_start) + fdf->y_win / 2 - (fdf->y_end - fdf->y_start) / 2;
 	printf("%d\n",fdf->x_end);
 	printf("%d\n",fdf->y_end);
 	printf("%d\n",fdf->y_start);
