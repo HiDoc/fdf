@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 15:29:19 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/06 17:10:24 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/08 15:29:10 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	ft_del_point(t_point *point)
 	free(point);
 }
 
-void	ft_map_point(int (f)(t_fdf *fdf, t_point *, int, int), t_fdf *fdf, char coord)
+void	ft_map_point(int (f)(t_fdf *fdf, t_point *, int, int),
+		t_fdf *fdf, char coord)
 {
 	int		y;
 	int		x;
@@ -52,7 +53,7 @@ void	ft_map_point(int (f)(t_fdf *fdf, t_point *, int, int), t_fdf *fdf, char coo
 int		ft_colr(t_fdf *fdf, t_point *point, int x, int y)
 {
 	int		rgb;
-	
+
 	(void)x;
 	(void)y;
 	(void)fdf;

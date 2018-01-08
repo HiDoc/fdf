@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 14:46:30 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/05 16:59:48 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/08 15:35:58 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static int	ft_is_file_valid(char *str)
 	if (count < 4)
 		return (0);
 	if (ft_strncmp(&str[count - 4], ".fdf", 4) != 0)
-	   return (0);
-	return (1);	
+		return (0);
+	return (1);
 }
 
 static int	ft_next_int(int count, char *str)
@@ -54,7 +54,7 @@ int			ft_parse_line(int y, t_fdf *fdf, char *str, int filled)
 	if (!filled)
 	{
 		fdf->size_x[y] = x;
-		if ((fdf->grid[y] = (t_point **)malloc(sizeof(t_point *) * x)) == NULL)
+		if (!(fdf->grid[y] = (t_point **)malloc(sizeof(t_point *) * x)))
 			return (0);
 		ft_ini_line(fdf, y);
 		return (ft_parse_line(y, fdf, str, 1));
