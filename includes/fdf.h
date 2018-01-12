@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 13:05:57 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/07 14:35:56 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/12 13:58:43 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct	s_fdf
 	int			y_center;
 	void		*mlx;
 	void		*win;
+	void		*img;
 }				t_fdf;
 
 int				ft_colr(t_fdf *fdf, t_point *point, int x, int y);

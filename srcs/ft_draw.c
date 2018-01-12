@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 19:01:30 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/08 16:11:57 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/01/12 15:46:55 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static void	ft_quad(t_fdf *fdf, int x, int y, t_point *a)
 	t_point	*c;
 	int		hauteur;
 
-	hauteur = (a->z == b->z ? fdf->grid[y + 1][x + 1]->y - a->y : a->y - b->y);
 	b = fdf->grid[y][x + 1];
 	c = fdf->grid[y + 1][x];
+	hauteur = (a->z == b->z ? fdf->grid[y + 1][x + 1]->y - a->y : a->y - b->y);
 	i = 0;
 	while (i < fdf->res)
 	{
@@ -59,7 +59,7 @@ static void	ft_trg(t_fdf *fdf, t_point *a, t_point *b, t_point *c)
 	if ((c->y > b->y && c->y <= a->y && c->z == a->z && a->z < b->z))
 		hauteur++;
 	if (a->y > b->y && a->y < c->y && a->z >= c->z && b->x == c->x &&
-		c->z < b->z && i >= j / ft_coef(fdf, a, b))
+		c->z < b->z)
 		hauteur++;
 	else if (a->y == b->y && a->y < c->y)
 		hauteur++;
@@ -185,6 +185,34 @@ int			ft_draw_lines(t_fdf *fdf)
 	return (1);
 }
 
+int			key_hook(int keycode, void *param)
+{
+	t_fdf	*fdf;
+
+	fdf = param;
+	if (fdf->img != NULL)
+		mlx_destroy_image(fdf->mlx, fdf->img);
+	fdf->img = mlx_new_image (fdf->mlx, 800, 800);
+
+	if (keycode == 123)
+	{
+		mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 400, 400); 
+	}
+	if (keycode == 124)
+	{
+		mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 400, 400); 
+	}
+	if (keycode == 125)
+	{
+		mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0); 
+	}
+	if (keycode == 126)
+	{
+		mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 800, 800); 
+	}
+	return (1);
+}
+
 int			ft_draw(char *file)
 {
 	t_fdf	*fdf;
@@ -192,6 +220,8 @@ int			ft_draw(char *file)
 	if ((fdf = (ft_read(file))) == NULL)
 		return (0);
 	ft_draw_lines(fdf);
+	fdf->img = NULL;
+	mlx_key_hook(fdf->win, &key_hook, fdf);
 	mlx_loop(fdf->mlx);
 	return (1);
 }
