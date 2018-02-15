@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 13:05:57 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/12 13:58:43 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/02/15 22:19:44 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void			ft_print_map(t_fdf *fdf);
 void			ft_res_fdf(t_fdf *fdf);
 void			ft_pix_put(t_fdf *fdf, t_point *point, int xmod, int ymod);
 void			ft_pix_put_flat(t_fdf *fdf, t_point *point, int xmod, int ymod);
-void			ft_pix_put_l(t_fdf *fdf, t_point *point, int xmod, int ymod);
+void			ft_pix_put_top(t_fdf *fdf, t_point *point, int xmod, int ymod);
 int				ft_pythagore(int a, int b);
 t_fdf			*ft_read(char *file);
 int				ft_draw(char *file);

@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 19:01:30 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/12 15:46:55 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/02/15 22:51:40 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static void	ft_quad(t_fdf *fdf, int x, int y, t_point *a)
 	c = fdf->grid[y + 1][x];
 	hauteur = (a->z == b->z ? fdf->grid[y + 1][x + 1]->y - a->y : a->y - b->y);
 	i = 0;
-	while (i < fdf->res)
+	while (i <= fdf->res)
 	{
 		j = 0;
-		while (j < hauteur)
+		while (j <= hauteur)
 		{
 			if (a->z == b->z)
 			{
@@ -38,8 +38,8 @@ static void	ft_quad(t_fdf *fdf, int x, int y, t_point *a)
 			}
 			else if (a->z != b->z)
 			{
-				ft_pix_put(fdf, a, i + j / ft_coef(fdf, a, b), -j + i);
-				ft_pix_put(fdf, a, i + j / ft_coef(fdf, a, b), -j + i + 1);
+				ft_pix_put_top(fdf, a, i + j / ft_coef(fdf, a, b), -j + i);
+				ft_pix_put_top(fdf, a, i + j / ft_coef(fdf, a, b), -j + i + 1);
 			}
 			j++;
 		}
@@ -65,10 +65,10 @@ static void	ft_trg(t_fdf *fdf, t_point *a, t_point *b, t_point *c)
 		hauteur++;
 	else if (b->z == c->z && a->z > c->z)
 		hauteur++;
-	while (i < fdf->res)
+	while (i <= fdf->res)
 	{
 		j = 0;
-		while (j < fdf->res * hauteur)
+		while (j <= fdf->res * hauteur)
 		{
 			if (a->y > b->y && a->y < c->y && a->z >= c->z && c->z <= b->z)
 			{
@@ -119,10 +119,11 @@ static void	ft_fill(t_fdf *fdf, int x, int y)
 	c = fdf->grid[y + 1][x + 1];
 	d = fdf->grid[y + 1][x];
 	(void)ft_quad;
+	(void)ft_trg;
 	if ((a->z == b->z && c->z == d->z && a->z >= c->z) ||
 			(a->z == d->z && b->z == c->z && a->z < b->z))
 		ft_quad(fdf, x, y, a);
-	else
+	/*else
 	{
 		ft_trg(fdf, a, b, d);
 		ft_trg(fdf, d, b, c);
@@ -131,7 +132,7 @@ static void	ft_fill(t_fdf *fdf, int x, int y)
 		{
 			ft_trg(fdf, a, c, d);
 		}
-	}
+	}*/
 }
 
 static void	ft_draw_line_one(t_fdf *fdf, t_point *p1, t_point *p2, int dir)
@@ -146,14 +147,11 @@ static void	ft_draw_line_one(t_fdf *fdf, t_point *p1, t_point *p2, int dir)
 	while (i / coef < fdf->res)
 	{
 		if (!(cmp))
-			ft_pix_put_l(fdf, p1, i / coef, dir ? i : 0);
+			ft_pix_put_flat(fdf, p1, i / coef, dir ? i : 0);
+		else if (cmp > 0)
+			ft_pix_put_flat(fdf, p1, i / coef, i);
 		else
-		{
-			if (cmp > 0)
-				ft_pix_put_l(fdf, p1, i / coef, i);
-			else
-				ft_pix_put_l(fdf, p1, i / coef, dir ? 0 : -i);
-		}
+			ft_pix_put_flat(fdf, p1, i / coef, dir ? 0 : -i);
 		i++;
 	}
 }
@@ -164,6 +162,7 @@ int			ft_draw_lines(t_fdf *fdf)
 	int		x;
 	t_point *a;
 
+	(void)ft_draw_line_one;
 	y = 0;
 	while (y < fdf->size_y)
 	{
@@ -174,9 +173,9 @@ int			ft_draw_lines(t_fdf *fdf)
 			if (y + 1 < fdf->size_y && x + 1 < fdf->size_x[y] &&
 				x + 1 < fdf->size_x[y + 1])
 				ft_fill(fdf, x, y);
-			if (x + 1 < fdf->size_x[y])
+			else if (x + 1 < fdf->size_x[y])
 				ft_draw_line_one(fdf, a, fdf->grid[y][x + 1], 0);
-			if (y + 1 < fdf->size_y && x < fdf->size_x[y + 1])
+			else if (y + 1 < fdf->size_y && x < fdf->size_x[y + 1])
 				ft_draw_line_one(fdf, a, fdf->grid[y + 1][x], 1);
 			x++;
 		}
