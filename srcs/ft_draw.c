@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 19:01:30 by fmadura           #+#    #+#             */
-/*   Updated: 2018/02/15 22:51:40 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/02/19 16:15:03 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	ft_quad(t_fdf *fdf, int x, int y, t_point *a)
 				else
 					ft_pix_put(fdf, a, i + j / ft_coef(fdf, a, c), j);
 			}
-			else if (a->z != b->z)
+			else
 			{
 				ft_pix_put_top(fdf, a, i + j / ft_coef(fdf, a, b), -j + i);
 				ft_pix_put_top(fdf, a, i + j / ft_coef(fdf, a, b), -j + i + 1);
@@ -45,6 +45,39 @@ static void	ft_quad(t_fdf *fdf, int x, int y, t_point *a)
 		}
 		i++;
 	}
+}
+
+static void trg_left(t_fdf *fdf, t_point *a, t_point *b, t_point *c)
+{
+	int		i;
+	int		j;
+	int		hauteur;
+
+	i = 0;
+	hauteur = fmax(fmax(a->z, b->z), fmax(c->z, 1)) -
+		fmin(fmin(a->z, b->z), c->z);
+	if (a->y > b->y && a->y < c->y && a->z >= c->z && b->x == c->x && c->z < b->z)
+		hauteur++;
+	while (i <= fdf->res)
+	{
+			j = 0;
+		while (j < fdf->res * hauteur)
+		{
+			if (b->x != c->x && i < j / ft_coef(fdf, b, c))
+			{
+				ft_pix_put(fdf, b, -i - j / ft_coef(fdf, b, c), j - i);
+				ft_pix_put(fdf, b, -i - j / ft_coef(fdf, b, c), j - i + 1);
+			}
+			else if (b->x == c->x && i > j / ft_coef(fdf, a, b))
+			{
+				ft_pix_put(fdf, c, -i + j / ft_coef(fdf, a, b), -j - i);
+				ft_pix_put(fdf, c, -i + j / ft_coef(fdf, a, b), -j - i + 1);
+			}
+			j++;
+		}
+		i++;
+	}
+
 }
 
 static void	ft_trg(t_fdf *fdf, t_point *a, t_point *b, t_point *c)
@@ -59,7 +92,7 @@ static void	ft_trg(t_fdf *fdf, t_point *a, t_point *b, t_point *c)
 	if ((c->y > b->y && c->y <= a->y && c->z == a->z && a->z < b->z))
 		hauteur++;
 	if (a->y > b->y && a->y < c->y && a->z >= c->z && b->x == c->x &&
-		c->z < b->z)
+			c->z < b->z)
 		hauteur++;
 	else if (a->y == b->y && a->y < c->y)
 		hauteur++;
@@ -96,7 +129,7 @@ static void	ft_trg(t_fdf *fdf, t_point *a, t_point *b, t_point *c)
 				ft_pix_put(fdf, b, i - j / ft_coef(fdf, a, c), j + i + 1);
 			}
 			else if (b->z == c->z && a->y < c->y && i - j / ft_coef(fdf, a, b) <
-			0 && ft_distance(a, b) > fdf->res && ft_distance(b, c) == fdf->res)
+					0 && ft_distance(a, b) > fdf->res && ft_distance(b, c) == fdf->res)
 				ft_pix_put(fdf, a, i + j / ft_coef(fdf, a, b), j);
 			else if (a->z > b->y && a->y > c->y && b->z == c->z &&
 					i - j / ft_coef(fdf, a, c) >= 0)
@@ -122,17 +155,17 @@ static void	ft_fill(t_fdf *fdf, int x, int y)
 	(void)ft_trg;
 	if ((a->z == b->z && c->z == d->z && a->z >= c->z) ||
 			(a->z == d->z && b->z == c->z && a->z < b->z))
-		ft_quad(fdf, x, y, a);
-	/*else
+			;//ft_quad(fdf, x, y, a);
+	else
 	{
-		ft_trg(fdf, a, b, d);
-		ft_trg(fdf, d, b, c);
-		if ((b->z == c->z && b->z == d->z && a->z > b->z) ||
-				(a->z == d->z && a->z == b->z && a->z < c->z))
-		{
-			ft_trg(fdf, a, c, d);
-		}
-	}*/
+		if (a->y > b->y && a->y < d->y && a->z >= d->z && d->z <= b->z)
+			trg_left(fdf, a,b, d);
+		//ft_trg(fdf, a, b, d);
+		//ft_trg(fdf, d, b, c);
+		//if ((b->z == c->z && b->z == d->z && a->z > b->z) ||
+		//		(a->z == d->z && a->z == b->z && a->z < c->z))
+		//	ft_trg(fdf, a, c, d);
+	}
 }
 
 static void	ft_draw_line_one(t_fdf *fdf, t_point *p1, t_point *p2, int dir)
@@ -171,7 +204,7 @@ int			ft_draw_lines(t_fdf *fdf)
 		{
 			a = fdf->grid[y][x];
 			if (y + 1 < fdf->size_y && x + 1 < fdf->size_x[y] &&
-				x + 1 < fdf->size_x[y + 1])
+					x + 1 < fdf->size_x[y + 1])
 				ft_fill(fdf, x, y);
 			else if (x + 1 < fdf->size_x[y])
 				ft_draw_line_one(fdf, a, fdf->grid[y][x + 1], 0);

@@ -6,13 +6,13 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 15:29:19 by fmadura           #+#    #+#             */
-/*   Updated: 2018/02/15 22:51:44 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/02/19 15:53:44 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#define RED 0x00010000
-#define GRN 0x00000100
+#define RED 0x00FF0000
+#define GRN 0x0000FF00
 #define BLU 0x000000FF
 #define BSC 0x00000001
 
@@ -58,7 +58,7 @@ int		ft_colr(t_fdf *fdf, t_point *point, int x, int y)
 	(void)x;
 	(void)y;
 	(void)fdf;
-	rgb =  BLU + ABS(point->z * BSC * 20);
+	rgb =  BLU + (point->z * 10 * 0x100);
 	return (rgb);
 }
 
@@ -71,4 +71,5 @@ int		ft_posy(t_fdf *fdf, t_point *point, int x, int y)
 int		ft_posx(t_fdf *fdf, t_point *point, int x, int y)
 {
 	(void)point;
-	return ((x * fdf->res) + (y * fdf->res));}
+	return ((x * fdf->res) + (y * fdf->res));
+}
