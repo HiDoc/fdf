@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 13:05:57 by fmadura           #+#    #+#             */
-/*   Updated: 2018/02/15 22:19:44 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/01 19:39:57 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,33 +41,39 @@ typedef struct	s_fdf
 	int			y_center;
 	void		*mlx;
 	void		*win;
-	void		*img;
 }				t_fdf;
 
+void			ft_map_point(int (f)(t_fdf *, t_point *, int, int), t_fdf *g, char c);
 int				ft_colr(t_fdf *fdf, t_point *point, int x, int y);
-int				ft_distance(t_point *p1, t_point *p2);
-int				ft_coef(t_fdf *fdf, t_point *p1, t_point *p2);
 int				ft_posx(t_fdf *fdf, t_point *point, int x, int y);
 int				ft_posy(t_fdf *fdf, t_point *point, int x, int y);
+
 void			ft_del_point(t_point *point);
+void			ft_del_grid(t_fdf *fdf);
+void			ft_res_grid(t_fdf *fdf);
 
 int				ft_parse_file(int fd, t_fdf *fdf, int sized);
 int				ft_parse_line(int y, t_fdf *fdf, char *str, int filled);
+
 int				real_y(t_fdf *fdf, int x, int y);
+
+int				ft_coef(t_fdf *fdf, t_point *a, t_point *b);
+
 t_fdf			*ft_add_mlx(t_fdf *fdf);
-t_fdf			*ft_ini_fdf(t_fdf *fdf);
+t_fdf			*ft_ini_fdf(t_fdf *fdfi, int res);
+t_fdf			*ft_ini_line(t_fdf *fdf, int y);
+
 t_fdf			*ft_max_y(t_fdf *fdf);
 t_fdf			*ft_max_x(t_fdf *fdf);
-t_fdf			*ft_ini_line(t_fdf *fdf, int y);
 t_fdf			*ft_map_fdf(t_fdf *fdf);
-void			ft_map_point(int (f)(t_fdf *, t_point *, int, int), t_fdf *g, char c);
-void			ft_del_grid(t_fdf *fdf);
-void			ft_print_map(t_fdf *fdf);
+
 void			ft_res_fdf(t_fdf *fdf);
-void			ft_pix_put(t_fdf *fdf, t_point *point, int xmod, int ymod);
+
 void			ft_pix_put_flat(t_fdf *fdf, t_point *point, int xmod, int ymod);
-void			ft_pix_put_top(t_fdf *fdf, t_point *point, int xmod, int ymod);
+void			ft_pix_put_color(t_fdf *fdf, int xmod, int ymod, int color);
+
 int				ft_pythagore(int a, int b);
+
 t_fdf			*ft_read(char *file);
 int				ft_draw(char *file);
 #endif

@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 13:14:49 by fmadura           #+#    #+#             */
-/*   Updated: 2018/02/15 21:56:29 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/01 20:11:29 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	ft_res_grid(t_fdf *fdf)
 		}
 		y++;
 	}
+	ft_ini_fdf(fdf, 20);
 }
 
 t_fdf	*ft_ini_line(t_fdf *fdf, int y)

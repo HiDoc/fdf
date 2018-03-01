@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 14:46:30 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/08 15:35:58 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/01 18:28:00 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,6 @@ t_fdf		*ft_read(char *file)
 		return (NULL);
 	if (close(fd) == -1)
 		return (NULL);
-	ft_ini_fdf(new);
+	ft_ini_fdf(new, 20);
 	return (new);
 }

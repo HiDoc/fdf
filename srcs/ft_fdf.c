@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 16:45:05 by fmadura           #+#    #+#             */
-/*   Updated: 2018/02/15 21:56:13 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/01 19:42:29 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,19 +74,16 @@ t_fdf		*ft_max_x(t_fdf *fdf)
 	return (fdf);
 }
 
-t_fdf		*ft_ini_fdf(t_fdf *fdf)
+t_fdf		*ft_ini_fdf(t_fdf *fdf, int res)
 {
-	fdf->res = 20;
-	fdf->y_start = 0;
-	fdf->x_win = 800;
-	fdf->y_win = 800;
-	fdf->x_end = 0;
+	fdf->res = res;
 	ft_map_fdf(fdf);
 	ft_max_x(fdf);
 	ft_max_y(fdf);
+	fdf->x_win = 800;
+	fdf->y_win = 800;
 	fdf->x_center = fdf->x_win / 2 - fdf->x_end / 2;
 	fdf->y_center = abs(fdf->y_start) + fdf->y_win / 2
 	- (fdf->y_end - fdf->y_start) / 2;
-	ft_add_mlx(fdf);
 	return (fdf);
 }
