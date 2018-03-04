@@ -6,15 +6,11 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 15:29:19 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/01 17:54:22 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/04 13:18:42 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#define RED 0x00FF0000
-#define GRN 0x0000FF00
-#define BLU 0x000000FF
-#define BSC 0x00000001
 
 void	ft_del_point(t_point *point)
 {
@@ -49,17 +45,6 @@ void	ft_map_point(int (f)(t_fdf *fdf, t_point *, int, int),
 		}
 		y++;
 	}
-}
-
-int		ft_colr(t_fdf *fdf, t_point *point, int x, int y)
-{
-	int		rgb;
-
-	(void)x;
-	(void)y;
-	(void)fdf;
-	rgb =  BLU + (point->z * 10 * 0x100);
-	return (rgb);
 }
 
 int		ft_posy(t_fdf *fdf, t_point *point, int x, int y)

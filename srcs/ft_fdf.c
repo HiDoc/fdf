@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/05 16:45:05 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/01 19:42:29 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/04 13:31:51 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,39 @@ t_fdf		*ft_max_x(t_fdf *fdf)
 	return (fdf);
 }
 
+t_fdf		*ft_max_z(t_fdf *fdf)
+{
+	int x;
+	int y;
+	int max;
+	int min;
+
+	y = 0;
+	x = 0;
+	max = fdf->size_x[0] ? fdf->grid[0][0]->z : 0;
+	min = fdf->size_x[0] ? fdf->grid[0][0]->z : 0;
+	while (y < fdf->size_y)
+	{
+		x = 0;
+		while (x < fdf->size_x[y])
+		{
+			if (fdf->grid[y][x]->z < min)
+				min = fdf->grid[y][x]->z;
+			if (fdf->grid[y][x]->z > max)
+				max = fdf->grid[y][x]->z;
+			x++;
+		}
+		y++;
+	}
+	fdf->z_min = min;
+	fdf->z_max = max;
+	return (fdf);
+}
+
 t_fdf		*ft_ini_fdf(t_fdf *fdf, int res)
 {
 	fdf->res = res;
+	ft_max_z(fdf);
 	ft_map_fdf(fdf);
 	ft_max_x(fdf);
 	ft_max_y(fdf);

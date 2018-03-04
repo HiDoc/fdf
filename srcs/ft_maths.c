@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 14:40:52 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/07 14:33:09 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/04 12:53:08 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,14 @@ int		ft_coef(t_fdf *fdf, t_point *p1, t_point *p2)
 int		ft_pythagore(int a, int b)
 {
 	return ((int)sqrt(pow(a, 2) + pow(b, 2)));
+}
+
+int		ft_rand(int seed, int increment, int modulus, int multiplier)
+{
+	return ((multiplier * seed + increment) % modulus);
+}
+
+int		ft_random(int seed)
+{
+	return (ft_rand(seed, 1013904223, INT_MAX, 1664525));
 }
