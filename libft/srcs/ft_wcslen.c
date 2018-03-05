@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_chrindex.c                                      :+:      :+:    :+:   */
+/*   ft_wcslen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/28 11:59:48 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/20 12:42:02 by fmadura          ###   ########.fr       */
+/*   Created: 2018/02/06 14:04:22 by fmadura           #+#    #+#             */
+/*   Updated: 2018/02/11 13:35:36 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_strchri(char *str, char c)
-{
-	int count;
+#include "libft.h"
 
-	count = 0;
-	while (str[count])
+size_t	ft_wcslen(const wchar_t *s)
+{
+	size_t	len;
+
+	len = 0;
+	while (s[len] != L'\0')
 	{
-		if (str[count] == c)
-			return (count);
-		count++;
+		if (s[++len] == L'\0')
+			return (len);
+		if (s[++len] == L'\0')
+			return (len);
+		if (s[++len] == L'\0')
+			return (len);
+		++len;
 	}
-	return (-1);
+	return (len);
 }

@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_chrindex.c                                      :+:      :+:    :+:   */
+/*   printf_format_wildcards.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/28 11:59:48 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/20 12:42:02 by fmadura          ###   ########.fr       */
+/*   Created: 2018/02/21 12:33:13 by fmadura           #+#    #+#             */
+/*   Updated: 2018/02/21 12:33:16 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_strchri(char *str, char c)
-{
-	int count;
+#include "libftprintf.h"
 
-	count = 0;
-	while (str[count])
+void	set_wildcards(t_arg *new, va_list ap)
+{
+	if (new->wildfield)
 	{
-		if (str[count] == c)
-			return (count);
-		count++;
+		if ((new->wildfield = va_arg(ap, int)) < 0 && !new->field)
+			new->ismins = 1;
+		if (!new->field)
+			new->field = ABS(new->wildfield);
 	}
-	return (-1);
+	if (new->wildpreci)
+	{
+		new->preci = va_arg(ap, int);
+		new->hpreci = new->preci > -1;
+	}
 }

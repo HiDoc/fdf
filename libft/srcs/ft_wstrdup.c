@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_chrindex.c                                      :+:      :+:    :+:   */
+/*   ft_wstrdup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/28 11:59:48 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/20 12:42:02 by fmadura          ###   ########.fr       */
+/*   Created: 2018/02/06 13:46:14 by fmadura           #+#    #+#             */
+/*   Updated: 2018/02/17 12:32:05 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_strchri(char *str, char c)
+#include "libft.h"
+
+wchar_t	*ft_wstrdup(const wchar_t *s1)
 {
-	int count;
+	int		len;
+	wchar_t	*dup;
+	int		count;
 
 	count = 0;
-	while (str[count])
+	if (s1 == NULL)
+		return (NULL);
+	len = ft_wcslen(s1);
+	if ((dup = (wchar_t *)malloc(((sizeof(wchar_t) * len) + 1))) == NULL)
+		return (NULL);
+	while (count < len)
 	{
-		if (str[count] == c)
-			return (count);
+		dup[count] = s1[count];
 		count++;
 	}
-	return (-1);
+	dup[count] = '\0';
+	return (dup);
 }

@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_chrindex.c                                      :+:      :+:    :+:   */
+/*   printf_flag2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/28 11:59:48 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/20 12:42:02 by fmadura          ###   ########.fr       */
+/*   Created: 2018/01/30 17:06:06 by fmadura           #+#    #+#             */
+/*   Updated: 2018/02/22 12:53:54 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_strchri(char *str, char c)
-{
-	int count;
+#include "libftprintf.h"
 
-	count = 0;
-	while (str[count])
-	{
-		if (str[count] == c)
-			return (count);
-		count++;
-	}
-	return (-1);
+int		is_flag(char c)
+{
+	return (ft_strchri(" plhjzdiouxDIOUXsScCi.-+#%", c) > -1
+			|| ft_isdigit(c));
+}
+
+int		is_flag_bonus(char c)
+{
+	return (ft_strchri("*fFeEgG", c) > -1);
 }

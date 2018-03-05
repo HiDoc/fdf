@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_chrindex.c                                      :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/28 11:59:48 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/20 12:42:02 by fmadura          ###   ########.fr       */
+/*   Created: 2018/01/30 15:17:47 by fmadura           #+#    #+#             */
+/*   Updated: 2018/02/07 15:51:28 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_strchri(char *str, char c)
-{
-	int count;
+#include "libftprintf.h"
 
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	char	*s;
+	size_t	count;
+
+	s = (char *)src;
 	count = 0;
-	while (str[count])
+	if (!src || !size)
+		return (0);
+	while (src[count] && count < size)
 	{
-		if (str[count] == c)
-			return (count);
+		dst[count] = src[count];
 		count++;
 	}
-	return (-1);
+	return (count);
 }

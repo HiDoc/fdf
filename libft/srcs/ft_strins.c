@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strljoin.c                                      :+:      :+:    :+:   */
+/*   ft_strins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/02 17:22:18 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/26 17:16:42 by fmadura          ###   ########.fr       */
+/*   Created: 2018/01/22 13:14:22 by fmadura           #+#    #+#             */
+/*   Updated: 2018/01/22 13:34:52 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strljoin(char *s1, char *s2)
+char	*ft_strins(char *from, char *ins, size_t index)
 {
-	char	*join;
+	char	*new;
+	size_t	len;
+	size_t	count;
 
-	join = ft_strjoin(s1, s2);
-	if (s1)
+	if (from == NULL || ins == NULL || index > (len = (int)ft_strlen(from)))
+		return (NULL);
+	count = ft_strlen(ins);
+	len = count + len;
+	new = ft_strnew(len);
+	new = ft_strncpy(from, new, index);
+	new = ft_strncpy(ins, &new[index], count);
+	while (count + index < len)
 	{
-		free(s1);
-		s1 = NULL;
+		new[count + index] = from[index];
+		index++;
 	}
-	return (join);
+	return (new);
 }

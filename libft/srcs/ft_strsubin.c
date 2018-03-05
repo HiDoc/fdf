@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_chrindex.c                                      :+:      :+:    :+:   */
+/*   ft_outsubin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/28 11:59:48 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/20 12:42:02 by fmadura          ###   ########.fr       */
+/*   Created: 2018/01/08 14:28:46 by fmadura           #+#    #+#             */
+/*   Updated: 2018/02/19 17:00:17 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_strchri(char *str, char c)
-{
-	int count;
+#include "libft.h"
 
-	count = 0;
-	while (str[count])
-	{
-		if (str[count] == c)
-			return (count);
-		count++;
-	}
-	return (-1);
+char	*ft_strsubin(char *out, char **in, char c)
+{
+	char	*tmp;
+
+	*in = ft_strsub(out, 0, ft_strchri(out, c));
+	tmp = ft_strsub(out, ft_strchri(out, c) + 1, ft_strlen(out));
+	free(out);
+	out = ft_strdup(tmp);
+	free(tmp);
+	return (out);
 }

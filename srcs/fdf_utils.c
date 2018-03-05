@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_chrindex.c                                      :+:      :+:    :+:   */
+/*   fdf_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/28 11:59:48 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/20 12:42:02 by fmadura          ###   ########.fr       */
+/*   Created: 2018/03/05 13:41:41 by fmadura           #+#    #+#             */
+/*   Updated: 2018/03/05 13:41:42 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_strchri(char *str, char c)
-{
-	int count;
+#include "fdf.h"
 
-	count = 0;
-	while (str[count])
-	{
-		if (str[count] == c)
-			return (count);
-		count++;
-	}
-	return (-1);
+void	ft_pix_put_color(t_fdf *fdf, int xmod, int ymod, int color)
+{
+	mlx_pixel_put(fdf->mlx,
+			fdf->win,
+			xmod + fdf->x_center,
+			ymod + fdf->y_center,
+			color);
+}
+void	ft_pix_put_flat(t_fdf *fdf, t_point *point, int xmod, int ymod)
+{
+	mlx_pixel_put(fdf->mlx,
+			fdf->win,
+			point->x + xmod + fdf->x_center,
+			point->y + ymod + fdf->y_center,
+			point->color);
 }

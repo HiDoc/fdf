@@ -1,40 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   ft_utoabase.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/08 17:16:59 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/26 17:29:26 by fmadura          ###   ########.fr       */
+/*   Created: 2018/02/14 10:38:18 by fmadura           #+#    #+#             */
+/*   Updated: 2018/02/17 12:07:23 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		ft_getlen(int n, int c)
+static int	ft_getlen(unsigned int n, int c, int baseto)
 {
-	return ((n != 0 ? ft_getlen(n / 10, c + 1) : c));
+	return ((n != 0 ? ft_getlen(n / baseto, c + 1, baseto) : c));
 }
 
-char			*ft_itoa(int n)
+char		*ft_utoabase(unsigned int n, int baseto, char *basefrom)
 {
 	char	*nbr;
 	int		count;
-	int		ispos;
 
-	ispos = (n >= 0);
-	count = ft_getlen(n, 0) - (n > 0);
-	if ((nbr = (char *)malloc((sizeof(char) * (count + 2)))) == NULL)
+	if (n == 0)
+		return (ft_strdup("0"));
+	count = ft_getlen(n, 0, baseto);
+	if ((nbr = (char *)malloc((sizeof(char) * (count + 1)))) == NULL)
 		return (NULL);
-	nbr[count + 1] = '\0';
-	while (count >= 0)
+	nbr[count] = '\0';
+	while (--count >= 0)
 	{
-		nbr[count] = ABS((n % 10)) + '0';
-		count--;
-		n /= 10;
+		nbr[count] = basefrom[(n % baseto)];
+		n /= baseto;
 	}
-	if (!ispos)
-		nbr[0] = '-';
 	return (nbr);
 }

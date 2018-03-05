@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_chrindex.c                                      :+:      :+:    :+:   */
+/*   printf_convhtg.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/28 11:59:48 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/20 12:42:02 by fmadura          ###   ########.fr       */
+/*   Created: 2018/02/11 11:57:45 by fmadura           #+#    #+#             */
+/*   Updated: 2018/02/18 11:56:39 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_strchri(char *str, char c)
-{
-	int count;
+#include "libftprintf.h"
 
-	count = 0;
-	while (str[count])
+void	format_htg(t_arg *arg)
+{
+	char	*tmp;
+
+	if (arg->field - 1 > 0)
 	{
-		if (str[count] == c)
-			return (count);
-		count++;
+		tmp = ft_strnew(arg->field - 1);
+		ft_strset(tmp, arg->is0 ? '0' : ' ', arg->field - 1);
+		switch_minus(tmp, arg);
 	}
-	return (-1);
 }

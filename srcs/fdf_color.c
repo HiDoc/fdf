@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_color.c                                         :+:      :+:    :+:   */
+/*   fdf_color.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/04 12:23:07 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/04 14:32:07 by fmadura          ###   ########.fr       */
+/*   Created: 2018/03/05 13:39:27 by fmadura           #+#    #+#             */
+/*   Updated: 2018/03/05 13:46:17 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ int        ft_colr(t_fdf *fdf, t_point *point, int x, int y)
 	return (rgb);
 }
 
-
-int        ft_random_color(t_fdf *fdf, t_point *point, int x, int y)
+int        ft_rncg(t_fdf *fdf, t_point *point, int x, int y)
 {
 	int        r;
 	int        g;

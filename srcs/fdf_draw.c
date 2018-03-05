@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_draw.c                                          :+:      :+:    :+:   */
+/*   fdf_draw.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/03 19:01:30 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/04 14:38:31 by fmadura          ###   ########.fr       */
+/*   Created: 2018/03/05 13:39:48 by fmadura           #+#    #+#             */
+/*   Updated: 2018/03/05 13:46:39 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <time.h>
 
 static void	ft_draw_line_xd(t_fdf *fdf, t_point *p1, t_point *p2)
 {
@@ -39,7 +38,7 @@ static void	ft_draw_line_xd(t_fdf *fdf, t_point *p1, t_point *p2)
 	}
 }
 
-int			ft_draw_lines_xd(t_fdf *fdf)
+static int	ft_draw_lines_xd(t_fdf *fdf)
 {
 	int		y;
 	int		x;
@@ -63,7 +62,6 @@ int			ft_draw_lines_xd(t_fdf *fdf)
 	}
 	return (1);
 }
-
 
 static void	ft_draw_line(t_fdf *fdf, t_point *p1, t_point *p2)
 {
@@ -124,7 +122,7 @@ int			key_hook(int keycode, void *param)
 	if (keycode == 8)
 	{
 		fdf->rand = ft_random(fdf->rand);
-		ft_map_point(&ft_random_color, fdf, 'c');
+		ft_map_point(&ft_rncg, fdf, 'c');
 	}
 	else 
 	{

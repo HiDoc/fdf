@@ -13,21 +13,22 @@ cleaning = @echo "\033[36mCleaning complete\033[0m"
 
 SRC_NAME = main.c \
 		   get_next_line.c \
-		   parsing.c \
-		   ft_point.c \
-		   ft_draw.c \
-		   ft_grid.c \
-		   ft_maths.c \
-		   ft_utils.c \
-		   ft_color.c \
-		   ft_fdf.c
+		   fdf_parsing.c \
+		   fdf_point.c \
+		   fdf_draw.c \
+		   fdf_grid.c \
+		   fdf_maths.c \
+		   fdf_utils.c \
+		   fdf_color.c \
+		   fdf_max.c \
+		   fdf_fdf.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
 SRC = $(addprefix $(SRC_PATH), $(SRC_NAME))
 OBJ = $(addprefix $(OBJ_PATH), $(OBJ_NAME))
 INC = $(addprefix -I, $(INC_PATH))
-LIB = -L ./minilibx -L ./libft -lft -lmlx 
+LIB = -L ./minilibx -L ./libft -lftprintf -lmlx 
 
 .PHONY : all clean fclean re
 

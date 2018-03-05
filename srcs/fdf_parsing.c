@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   fdf_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/07 14:46:30 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/02 11:58:32 by fmadura          ###   ########.fr       */
+/*   Created: 2018/03/05 13:40:23 by fmadura           #+#    #+#             */
+/*   Updated: 2018/03/05 13:42:07 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	ft_next_int(int count, char *str)
 	return (count);
 }
 
-int			ft_parse_line(int y, t_fdf *fdf, char *str, int filled)
+static int	ft_parse_line(int y, t_fdf *fdf, char *str, int filled)
 {
 	int		count;
 	int		x;
@@ -62,7 +62,7 @@ int			ft_parse_line(int y, t_fdf *fdf, char *str, int filled)
 	return (1);
 }
 
-int			ft_parse_file(int fd, t_fdf *fdf, int sized)
+static int	ft_parse_file(int fd, t_fdf *fdf, int sized)
 {
 	char	*line;
 	t_point	***tab;
@@ -72,14 +72,15 @@ int			ft_parse_file(int fd, t_fdf *fdf, int sized)
 	x = 0;
 	y = 0;
 	line = NULL;
+	tab = NULL;
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (sized)
 			ft_parse_line(y, fdf, line, 0);
 		free(line);
+		line = NULL;
 		y++;
 	}
-	line = NULL;
 	if (!sized)
 	{
 		if (((tab = (t_point ***)malloc(sizeof(t_point **) * y)) == NULL)

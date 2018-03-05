@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_chrindex.c                                      :+:      :+:    :+:   */
+/*   ft_ltoabase.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/28 11:59:48 by fmadura           #+#    #+#             */
-/*   Updated: 2018/01/20 12:42:02 by fmadura          ###   ########.fr       */
+/*   Created: 2018/02/07 15:52:53 by fmadura           #+#    #+#             */
+/*   Updated: 2018/02/14 11:06:18 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_strchri(char *str, char c)
-{
-	int count;
+#include "libft.h"
 
-	count = 0;
-	while (str[count])
-	{
-		if (str[count] == c)
-			return (count);
-		count++;
-	}
-	return (-1);
+char		*ft_ltoabase(long n, int baseto, char *basefrom)
+{
+	if (n < 0 && baseto != 10)
+		return (ft_ultoabase(ULONG_MAX + n + 1, baseto, basefrom));
+	else
+		return (ft_ultoabase(n, baseto, basefrom));
 }

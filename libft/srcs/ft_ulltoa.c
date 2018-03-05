@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   ft_utoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/08 17:16:59 by fmadura           #+#    #+#             */
-/*   Updated: 2017/12/26 17:29:26 by fmadura          ###   ########.fr       */
+/*   Created: 2018/02/14 10:24:48 by fmadura           #+#    #+#             */
+/*   Updated: 2018/02/14 10:38:06 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		ft_getlen(int n, int c)
+static int		ft_getlen(unsigned long long n, int c)
 {
-	return ((n != 0 ? ft_getlen(n / 10, c + 1) : c));
+	return ((n > 9 ? ft_getlen(n / 10, c + 1) : c));
 }
 
-char			*ft_itoa(int n)
+char			*ft_ulltoa(unsigned long long n)
 {
 	char	*nbr;
 	int		count;
-	int		ispos;
 
-	ispos = (n >= 0);
-	count = ft_getlen(n, 0) - (n > 0);
+	if (n == 0)
+		return (ft_strdup("0"));
+	count = ft_getlen(n, 0);
 	if ((nbr = (char *)malloc((sizeof(char) * (count + 2)))) == NULL)
 		return (NULL);
 	nbr[count + 1] = '\0';
@@ -34,7 +34,5 @@ char			*ft_itoa(int n)
 		count--;
 		n /= 10;
 	}
-	if (!ispos)
-		nbr[0] = '-';
 	return (nbr);
 }
