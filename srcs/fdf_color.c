@@ -5,51 +5,51 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/05 13:39:27 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/05 13:46:17 by fmadura          ###   ########.fr       */
+/*   Created: 2018/03/05 13:55:39 by fmadura           #+#    #+#             */
+/*   Updated: 2018/03/05 17:34:07 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int        ft_colr(t_fdf *fdf, t_point *point, int x, int y)
+int		fdf_colr(t_fdf *fdf, t_point *point, int x, int y)
 {
-	int        rgb;
-	int        scale;
-	float    pos;
+	int		rgb;
+	int		scale;
+	float	pos;
 
 	(void)x;
 	(void)y;
 	scale = fdf->z_max - fdf->z_min;
 	pos = (scale - point->z) * 100 / scale;
-	rgb = ft_color_mixer(0xFFFFFF, 0x2FA262, pos / 100);
+	rgb = fdf_color_mixer(0xFFFFFF, 0x2FA262, pos / 100);
 	return (rgb);
 }
 
-int        ft_rncg(t_fdf *fdf, t_point *point, int x, int y)
+int		fdf_rncg(t_fdf *fdf, t_point *point, int x, int y)
 {
-	int        r;
-	int        g;
-	int        b;
+	int		r;
+	int		g;
+	int		b;
 
 	(void)fdf;
 	(void)x;
 	(void)y;
 	(void)point;
-	r = (unsigned char)ft_random(fdf->rand);
-	fdf->rand = ft_random(fdf->rand + x);
-	g = (unsigned char)ft_random(fdf->rand);
-	fdf->rand = ft_random(fdf->rand + y);
-	b = (unsigned char)ft_random(fdf->rand);
-	fdf->rand = ft_random(fdf->rand);
+	r = (unsigned char)fdf_random(fdf->rand);
+	fdf->rand = fdf_random(fdf->rand + x);
+	g = (unsigned char)fdf_random(fdf->rand);
+	fdf->rand = fdf_random(fdf->rand + y);
+	b = (unsigned char)fdf_random(fdf->rand);
+	fdf->rand = fdf_random(fdf->rand);
 	return ((r << 16) + (g << 8) + b);
 }
 
-int        ft_color_mixer(int c1, int c2, float mix)
+int		fdf_color_mixer(int c1, int c2, float mix)
 {
-	float    r;
-	float    g;
-	float    b;
+	float	r;
+	float	g;
+	float	b;
 
 	r = ((c1 & 0xFF0000) * (1 - mix) + (c2 & 0xFF0000) * (mix));
 	g = ((c1 & 0xFF00) * (1 - mix) + (c2 & 0xFF00) * (mix));

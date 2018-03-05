@@ -6,13 +6,13 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 13:41:23 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/05 13:41:25 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/05 17:34:07 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-t_fdf		*ft_max_y(t_fdf *fdf)
+t_fdf		*fdf_max_y(t_fdf *fdf)
 {
 	int x;
 	int y;
@@ -41,7 +41,7 @@ t_fdf		*ft_max_y(t_fdf *fdf)
 	return (fdf);
 }
 
-t_fdf		*ft_max_x(t_fdf *fdf)
+t_fdf		*fdf_max_x(t_fdf *fdf)
 {
 	int count;
 	int max;
@@ -59,7 +59,7 @@ t_fdf		*ft_max_x(t_fdf *fdf)
 	return (fdf);
 }
 
-t_fdf		*ft_max_z(t_fdf *fdf)
+t_fdf		*fdf_max_z(t_fdf *fdf)
 {
 	int x;
 	int y;

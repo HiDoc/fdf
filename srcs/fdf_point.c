@@ -6,18 +6,18 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 13:41:32 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/05 13:41:33 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/05 17:59:00 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_del_point(t_point *point)
+void	fdf_del_point(t_point *point)
 {
 	free(point);
 }
 
-void	ft_map_point(int (f)(t_fdf *fdf, t_point *, int, int),
+void	fdf_map_point(int (f)(t_fdf *fdf, t_point *, int, int),
 		t_fdf *fdf, char coord)
 {
 	int		y;
@@ -47,13 +47,13 @@ void	ft_map_point(int (f)(t_fdf *fdf, t_point *, int, int),
 	}
 }
 
-int		ft_posy(t_fdf *fdf, t_point *point, int x, int y)
+int		fdf_posy(t_fdf *fdf, t_point *point, int x, int y)
 {
 	(void)x;
-	return ((y - point->z) * fdf->res);
+	return ((y - point->z - x) * fdf->res);
 }
 
-int		ft_posx(t_fdf *fdf, t_point *point, int x, int y)
+int		fdf_posx(t_fdf *fdf, t_point *point, int x, int y)
 {
 	(void)point;
 	return ((x * fdf->res) + (y * fdf->res));

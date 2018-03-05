@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 13:32:12 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/05 11:14:26 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/05 17:36:33 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 int		main(int argc, char **argv)
 {
 	if (argc > 1)
-		(ft_draw(argv[1]));
+		(fdf_draw(argv[1]));
 	return (0);
 }

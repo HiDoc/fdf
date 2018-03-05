@@ -6,13 +6,13 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 13:40:06 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/05 13:40:07 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/05 17:34:07 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_del_grid(t_fdf *fdf)
+void	fdf_del_grid(t_fdf *fdf)
 {
 	int		y;
 	int		x;
@@ -23,7 +23,7 @@ void	ft_del_grid(t_fdf *fdf)
 		x = 0;
 		while (x < fdf->size_x[y])
 		{
-			ft_del_point(fdf->grid[y][x]);
+			fdf_del_point(fdf->grid[y][x]);
 			x++;
 		}
 		free(fdf->grid[y]);
@@ -32,7 +32,7 @@ void	ft_del_grid(t_fdf *fdf)
 	free(fdf->grid);
 }
 
-void	ft_res_grid(t_fdf *fdf)
+void	fdf_res_grid(t_fdf *fdf)
 {
 	int		y;
 	int		x;
@@ -50,10 +50,10 @@ void	ft_res_grid(t_fdf *fdf)
 		}
 		y++;
 	}
-	ft_ini_fdf(fdf, 20);
+	fdf_ini_fdf(fdf, 20);
 }
 
-t_fdf	*ft_ini_line(t_fdf *fdf, int y)
+t_fdf	*fdf_ini_line(t_fdf *fdf, int y)
 {
 	int		x;
 

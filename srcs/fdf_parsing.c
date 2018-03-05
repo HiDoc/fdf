@@ -6,13 +6,13 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 13:40:23 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/05 13:42:07 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/05 17:36:24 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	ft_is_file_valid(char *str)
+static int	fdf_is_file_valid(char *str)
 {
 	int count;
 
@@ -24,7 +24,7 @@ static int	ft_is_file_valid(char *str)
 	return (1);
 }
 
-static int	ft_next_int(int count, char *str)
+static int	fdf_next_int(int count, char *str)
 {
 	while (str[count] && (ft_isdigit(str[count]) || str[count] == '-'))
 		count++;
@@ -33,7 +33,7 @@ static int	ft_next_int(int count, char *str)
 	return (count);
 }
 
-static int	ft_parse_line(int y, t_fdf *fdf, char *str, int filled)
+static int	fdf_parse_line(int y, t_fdf *fdf, char *str, int filled)
 {
 	int		count;
 	int		x;
@@ -48,7 +48,7 @@ static int	ft_parse_line(int y, t_fdf *fdf, char *str, int filled)
 		z = ft_atoi(&str[count]);
 		if (filled)
 			(fdf->grid[y][x])->z = z;
-		count = ft_next_int(count, str);
+		count = fdf_next_int(count, str);
 		x++;
 	}
 	if (!filled)
@@ -56,13 +56,13 @@ static int	ft_parse_line(int y, t_fdf *fdf, char *str, int filled)
 		fdf->size_x[y] = x;
 		if (!(fdf->grid[y] = (t_point **)malloc(sizeof(t_point *) * x)))
 			return (0);
-		ft_ini_line(fdf, y);
-		return (ft_parse_line(y, fdf, str, 1));
+		fdf_ini_line(fdf, y);
+		return (fdf_parse_line(y, fdf, str, 1));
 	}
 	return (1);
 }
 
-static int	ft_parse_file(int fd, t_fdf *fdf, int sized)
+static int	fdf_parse_file(int fd, t_fdf *fdf, int sized)
 {
 	char	*line;
 	t_point	***tab;
@@ -72,11 +72,10 @@ static int	ft_parse_file(int fd, t_fdf *fdf, int sized)
 	x = 0;
 	y = 0;
 	line = NULL;
-	tab = NULL;
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (sized)
-			ft_parse_line(y, fdf, line, 0);
+			fdf_parse_line(y, fdf, line, 0);
 		free(line);
 		line = NULL;
 		y++;
@@ -92,25 +91,25 @@ static int	ft_parse_file(int fd, t_fdf *fdf, int sized)
 	return (1);
 }
 
-t_fdf		*ft_read(char *file)
+t_fdf		*fdf_read(char *file)
 {
 	int		fd;
 	t_fdf	*new;
 
-	if (!(ft_is_file_valid(file)))
+	if (!(fdf_is_file_valid(file)))
 		return (NULL);
 	if ((new = (t_fdf *)malloc(sizeof(t_fdf))) == NULL)
 		return (NULL);
 	if ((fd = open(file, O_RDONLY)) == -1)
 		return (NULL);
-	if (!(ft_parse_file(fd, new, 0)))
+	if (!(fdf_parse_file(fd, new, 0)))
 		return (NULL);
 	if (close(fd) == -1 || (fd = open(file, O_RDONLY)) == -1)
 		return (NULL);
-	if (!(ft_parse_file(fd, new, 1)))
+	if (!(fdf_parse_file(fd, new, 1)))
 		return (NULL);
 	if (close(fd) == -1)
 		return (NULL);
-	ft_ini_fdf(new, 20);
+	fdf_ini_fdf(new, 20);
 	return (new);
 }
