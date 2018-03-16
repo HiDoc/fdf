@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 13:41:32 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/05 17:59:00 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/08 13:00:19 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	fdf_del_point(t_point *point)
 {
 	free(point);
+	point = NULL;
 }
 
 void	fdf_map_point(int (f)(t_fdf *fdf, t_point *, int, int),

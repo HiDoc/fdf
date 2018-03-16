@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 13:39:58 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/05 17:34:07 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/08 13:10:50 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ t_fdf		*fdf_add_mlx(t_fdf *fdf)
 
 t_fdf		*fdf_ini_fdf(t_fdf *fdf, int res)
 {
+	if (!fdf->color)
+		fdf->color = 0xFFFFFF;
+	if (!fdf->color2)
+		fdf->color2 = 0x00FF00;
 	fdf->res = res;
 	fdf_max_z(fdf);
 	fdf_map_fdf(fdf);

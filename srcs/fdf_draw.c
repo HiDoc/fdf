@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 13:39:48 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/05 17:58:58 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/16 13:28:23 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ static void	fdf_draw_line_temp(t_fdf *fdf, t_point *p1, t_point *p2, int dir)
 			fdf_pix_put_color(fdf,
 			p1->x + i, p1->y + (!dir ? i : -i), color);
 		else if (cmp > 0)
-			fdf_pix_put_color(fdf, p1->x + i / coef, p1->y + i, color);
+			fdf_pix_put_color(fdf, p1->x + i / coef, p1->y +
+			(coef == 1 && cmp == 1 ? 0 : i), color);
 		else
 			fdf_pix_put_color(fdf,
-			p1->x + i / coef, p1->y - (p1->y == p2->y ? -i : i), color);
+			p1->x + i / coef, p1->y - (p1->y == p2->y ? 0 : i), color);
 		i++;
 	}
 }
@@ -83,7 +84,7 @@ static void	fdf_draw_line(t_fdf *fdf, t_point *p1, t_point *p2, int dir)
 			fdf_pix_put_color(fdf,
 			p1->x + i, p1->y + (!dir ? i : -i), color);
 		else if (cmp > 0)
-			fdf_pix_put_color(fdf, p1->x + i / coef, p1->y + 
+			fdf_pix_put_color(fdf, p1->x + i / coef, p1->y +
 			(coef == 1 && cmp == 1 ? 0 : i), color);
 		else
 			fdf_pix_put_color(fdf,

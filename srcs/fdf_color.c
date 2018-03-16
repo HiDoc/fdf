@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/05 13:55:39 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/05 17:34:07 by fmadura          ###   ########.fr       */
+/*   Created: 2018/03/08 13:01:34 by fmadura           #+#    #+#             */
+/*   Updated: 2018/03/08 13:06:59 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		fdf_colr(t_fdf *fdf, t_point *point, int x, int y)
 	(void)y;
 	scale = fdf->z_max - fdf->z_min;
 	pos = (scale - point->z) * 100 / scale;
-	rgb = fdf_color_mixer(0xFFFFFF, 0x2FA262, pos / 100);
+	rgb = fdf_color_mixer(fdf->color, fdf->color2, pos / 100);
 	return (rgb);
 }
 
@@ -32,9 +32,6 @@ int		fdf_rncg(t_fdf *fdf, t_point *point, int x, int y)
 	int		g;
 	int		b;
 
-	(void)fdf;
-	(void)x;
-	(void)y;
 	(void)point;
 	r = (unsigned char)fdf_random(fdf->rand);
 	fdf->rand = fdf_random(fdf->rand + x);

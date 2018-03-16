@@ -137,9 +137,7 @@ INC = $(addprefix -I,$(INC_PATH))
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@echo "\033[33mBuilding Printf..\033[0m"
 	@ar rc $(NAME) $(OBJ)
-	@echo "Compiling sources into a Library.."
 	@ranlib $(NAME)
 	$(complete)
 
@@ -152,26 +150,9 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<
 
 clean:
-	@echo "**************************************"
-	@echo "\033[33mCleaning process for Printf engaged..\033[0m"
-	@echo "Removing Printf binaries.."
 	@rm -rf ./objs
-	$(cleaning)
 
 fclean: clean
-	@echo "\033[33mCleaning library and program..\033[0m"
-	@echo "Removing library named libftprintf.."
 	@rm -f $(NAME)
-	$(cleaning)
-	@echo "**************************************"
-
-test :
-	@make all
-	@gcc main.c $(INC) -L ./ -lftprintf 
-	@echo test :
-	@./a.out $(TEST)
-
-lldb : 
-	@gcc -g main.c $(SRC) $(INC)
 
 re: fclean all

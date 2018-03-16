@@ -6,15 +6,25 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 13:32:12 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/05 17:36:33 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/16 13:31:54 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		main(int argc, char **argv)
+static void	ft_error(void)
 {
-	if (argc > 1)
-		(fdf_draw(argv[1]));
+	ft_putstr("Usage: fdf map_file.fdf");
+}
+
+int			main(int argc, char **argv)
+{
+	if (argc > 1 && argc == 2)
+	{
+		if (!(fdf_draw(argv[1])))
+			perror("Error ");
+	}
+	else
+		ft_error();
 	return (0);
 }
