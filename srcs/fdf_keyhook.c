@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 13:39:48 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/22 16:59:57 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/22 17:28:07 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static int	key_exit(int keycode, t_fdf *fdf)
 		mlx_clear_window(fdf->mlx, fdf->win);
 		mlx_destroy_window(fdf->mlx, fdf->win);
 		fdf_clear_fdf(fdf);
+		sleep(10);
 		exit(0);
 	}
 	return (0);

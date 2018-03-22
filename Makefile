@@ -51,7 +51,8 @@ $(NAME): $(OBJ)
 	@echo "*****************************************************"
 	@echo "Building fdf.."
 	@echo "$(ok)  Compiling sources into a program.."
-	@$(CC) $(CFLAGS) $(OBJ) $(INC) -framework OpenGL -framework AppKit -o $(NAME) $(LIB)
+	@$(CC) $(CFLAGS) $(OBJ) $(INC) -framework OpenGL -framework AppKit -o \
+	$(NAME) $(LIB)
 	@echo "*****************************************************"
 	@echo "Your fdf is ready to run !"
 

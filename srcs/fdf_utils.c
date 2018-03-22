@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 13:41:41 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/22 17:10:26 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/22 18:13:43 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int		fdf_no_value(t_fdf *fdf)
 			has_value++;
 		count++;
 	}
+	if (!(has_value) && fdf->size_x)
+		free(fdf->size_x);
 	return (has_value);
 }
 

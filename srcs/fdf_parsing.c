@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 13:40:23 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/22 16:25:44 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/22 19:05:07 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,15 @@ static int	fdf_parse_line(int y, t_fdf *fdf, char *str, int filled)
 	return (1);
 }
 
-static int	fdf_parse_file(int fd, t_fdf *fdf, int sized)
+static int	fdf_parse_file(int fd, t_fdf *fdf, int sized, int y)
 {
 	char	*line;
 	t_point	***tab;
-	int		y;
 	int		x;
 
 	x = 0;
-	y = 0;
 	line = NULL;
+	tab = NULL;
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (sized && !(fdf_parse_line(y, fdf, line, 0)))
@@ -82,8 +81,8 @@ static int	fdf_parse_file(int fd, t_fdf *fdf, int sized)
 	}
 	if (!sized)
 	{
-		if (((tab = (t_point ***)malloc(sizeof(t_point **) * y)) == NULL)
-		|| ((fdf->size_x = (int *)malloc(sizeof(int) * y)) == NULL))
+		if (!(y) || ((tab = (t_point ***)malloc(sizeof(t_point **) * y)) ==
+		NULL) || ((fdf->size_x = (int *)malloc(sizeof(int) * y)) == NULL))
 			return (0);
 		fdf->grid = tab;
 		fdf->size_y = y;
@@ -96,22 +95,23 @@ t_fdf		*fdf_read(char *file)
 	int		fd;
 	t_fdf	*new;
 
+	new = NULL;
 	if (!(fdf_is_file_valid(file)))
-		return (fdf_error(1));
+		return (fdf_error(1, new));
 	if ((new = (t_fdf *)malloc(sizeof(t_fdf))) == NULL)
-		return (fdf_error(2));
+		return (fdf_error(2, new));
 	if ((fd = open(file, O_RDONLY)) == -1)
-		return (fdf_error(3));
-	if (!(fdf_parse_file(fd, new, 0)))
-		return (fdf_error(4));
+		return (fdf_error(3, new));
+	if (!(fdf_parse_file(fd, new, 0, 0)))
+		return (fdf_error(4, new));
 	if (close(fd) == -1 || (fd = open(file, O_RDONLY)) == -1)
-		return (fdf_error(5));
-	if (!(fdf_parse_file(fd, new, 1)))
-		return (fdf_error(6));
+		return (fdf_error(5, new));
+	if (!(fdf_parse_file(fd, new, 1, 0)))
+		return (fdf_error(6, new));
 	if (close(fd) == -1)
-		return (fdf_error(7));
+		return (fdf_error(7, new));
 	if (!(fdf_no_value(new)))
-		return (fdf_error(8));
+		return (fdf_error(8, new));
 	fdf_ini_fdf(new, 40);
 	return (new);
 }

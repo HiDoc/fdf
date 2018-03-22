@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 13:05:57 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/22 16:58:19 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/22 17:36:37 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int				fdf_draw(char *file);
 int				fdf_draw_lines(t_fdf *fdf);
 int				fdf_draw_lines_temp(t_fdf *fdf);
 
-void			*fdf_error(int code);
+void			*fdf_error(int code, t_fdf *fdf);
 void			fdf_usage(void);
 void			fdf_keycode(void);
 int				fdf_no_value(t_fdf *fdf);

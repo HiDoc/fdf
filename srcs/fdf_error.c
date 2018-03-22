@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 16:47:49 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/22 17:01:11 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/22 19:02:09 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	fdf_keycode(void)
 	ft_putstr("w\t : not for epileptic...\n");
 }
 
-void	*fdf_error(int code)
+void	*fdf_error(int code, t_fdf *fdf)
 {
 	if (code == 1)
 		ft_putstr("fdf : File format is invalid\n");
@@ -46,6 +46,8 @@ void	*fdf_error(int code)
 		perror("fdf ");
 	else if (code == 8)
 		ft_putstr("fdf : File is a directory or has no value\n");
+	if (fdf != NULL)
+		free(fdf);
 	return (NULL);
 }
 
