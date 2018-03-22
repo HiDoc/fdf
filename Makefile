@@ -22,11 +22,13 @@ SRC_NAME = main.c \
 		   fdf_draw.c \
 		   fdf_grid.c \
 		   fdf_keyhook.c \
+		   fdf_keyhook_plus.c \
 		   fdf_maths.c \
 		   fdf_max.c \
 		   fdf_parsing.c \
 		   fdf_point.c \
 		   fdf_utils.c \
+		   fdf_error.c \
 		   fdf_fdf.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -72,7 +74,7 @@ clean:
 	@echo "*****************************************************"
 	@echo "Cleaning process for fdf engaged.."
 	@echo "Removing fdf binaries.."
-	@rm -rf $(OBJ)
+	@rm -rf $(OBJ_PATH)
 	$(cleaning)
 	@echo "*****************************************************"
 

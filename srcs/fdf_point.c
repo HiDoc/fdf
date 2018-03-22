@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 13:41:32 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/08 13:00:19 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/22 15:37:36 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,14 @@ int		fdf_posy(t_fdf *fdf, t_point *point, int x, int y)
 {
 	(void)x;
 	return ((y - point->z - x) * fdf->res);
+}
+
+int		fdf_posz(t_fdf *fdf, t_point *point, int x, int y)
+{
+	(void)x;
+	(void)y;
+	(void)fdf;
+	return (point->z = point->z / 5);
 }
 
 int		fdf_posx(t_fdf *fdf, t_point *point, int x, int y)

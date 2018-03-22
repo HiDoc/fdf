@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 13:40:23 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/16 13:27:24 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/22 16:25:44 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	fdf_is_file_valid(char *str)
 	int count;
 
 	count = (int)ft_strlen(str);
-	if (count < 4)
+	if (count < 5)
 		return (0);
 	if (ft_strncmp(&str[count - 4], ".fdf", 4) != 0)
 		return (0);
@@ -74,8 +74,8 @@ static int	fdf_parse_file(int fd, t_fdf *fdf, int sized)
 	line = NULL;
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (sized)
-			fdf_parse_line(y, fdf, line, 0);
+		if (sized && !(fdf_parse_line(y, fdf, line, 0)))
+			return (0);
 		free(line);
 		line = NULL;
 		y++;
@@ -97,19 +97,21 @@ t_fdf		*fdf_read(char *file)
 	t_fdf	*new;
 
 	if (!(fdf_is_file_valid(file)))
-		return (NULL);
+		return (fdf_error(1));
 	if ((new = (t_fdf *)malloc(sizeof(t_fdf))) == NULL)
-		return (NULL);
+		return (fdf_error(2));
 	if ((fd = open(file, O_RDONLY)) == -1)
-		return (NULL);
+		return (fdf_error(3));
 	if (!(fdf_parse_file(fd, new, 0)))
-		return (NULL);
+		return (fdf_error(4));
 	if (close(fd) == -1 || (fd = open(file, O_RDONLY)) == -1)
-		return (NULL);
+		return (fdf_error(5));
 	if (!(fdf_parse_file(fd, new, 1)))
-		return (NULL);
+		return (fdf_error(6));
 	if (close(fd) == -1)
-		return (NULL);
-	fdf_ini_fdf(new, 20);
+		return (fdf_error(7));
+	if (!(fdf_no_value(new)))
+		return (fdf_error(8));
+	fdf_ini_fdf(new, 40);
 	return (new);
 }

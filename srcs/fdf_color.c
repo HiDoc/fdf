@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/08 13:01:34 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/08 13:06:59 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/22 14:40:55 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int		fdf_colr(t_fdf *fdf, t_point *point, int x, int y)
 
 	(void)x;
 	(void)y;
-	scale = fdf->z_max - fdf->z_min;
+	if (!(scale = fdf->z_max - fdf->z_min))
+		scale = 1;
 	pos = (scale - point->z) * 100 / scale;
 	rgb = fdf_color_mixer(fdf->color, fdf->color2, pos / 100);
 	return (rgb);

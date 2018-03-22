@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 13:39:48 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/16 13:28:23 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/22 16:58:38 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	fdf_draw_line_temp(t_fdf *fdf, t_point *p1, t_point *p2, int dir)
 	i = 0;
 	cmp = p1->z - p2->z;
 	coef = fdf_coef(fdf, p1, p2);
-	while (i < fdf->res * coef)
+	while (i < (int)fdf->res * coef)
 	{
 		percent = ((float)i / (float)coef) / (float)fdf->res;
 		color = fdf_color_mixer(p1->color, p2->color, percent);
@@ -76,7 +76,7 @@ static void	fdf_draw_line(t_fdf *fdf, t_point *p1, t_point *p2, int dir)
 	i = 0;
 	cmp = p1->z - p2->z;
 	coef = fdf_coef(fdf, p1, p2);
-	while (i < fdf->res * coef)
+	while (i < (int)fdf->res * coef)
 	{
 		percent = ((float)i / (float)coef) / (float)fdf->res;
 		color = fdf_color_mixer(p1->color, p2->color, percent);
@@ -106,6 +106,7 @@ int			fdf_draw_lines(t_fdf *fdf)
 		while (x < fdf->size_x[y])
 		{
 			a = fdf->grid[y][x];
+			fdf_pix_put_color(fdf, a->x, a->y, a->color);
 			if (x + 1 < fdf->size_x[y])
 				fdf_draw_line(fdf, a, fdf->grid[y][x + 1], 1);
 			if (y + 1 < fdf->size_y && x < fdf->size_x[y + 1])
@@ -123,10 +124,24 @@ int			fdf_draw(char *file)
 
 	if ((fdf = (fdf_read(file))) == NULL)
 		return (0);
+	fdf->x_center_mod = 0;
+	fdf->y_center_mod = 0;
+	fdf_ini_fdf(fdf, fdf->res);
+	while (fdf_labs(fdf->z_max) > 100)
+	{
+		fdf_map_point(&fdf_posz, fdf, 'z');
+		fdf_ini_fdf(fdf, fdf->res);
+	}
+	while (fdf->y_end - fdf->y_start > fdf->x_win)
+	{
+		key_zoom(78, fdf);
+		fdf_ini_fdf(fdf, fdf->res);
+	}
 	fdf_add_mlx(fdf);
 	fdf_draw_lines(fdf);
-	mlx_do_sync(fdf->mlx);
 	fdf->rand = fdf_random((int)&fdf->rand);
+	fdf->resbase = fdf->res;
+	fdf_keycode();
 	mlx_key_hook(fdf->win, &key_hook, fdf);
 	mlx_loop(fdf->mlx);
 	return (1);
