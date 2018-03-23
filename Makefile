@@ -49,6 +49,10 @@ $(NAME): $(OBJ)
 	@echo "Launching Makefile for Libft.."
 	@make -C ./libft -j 5
 	@echo "*****************************************************"
+	@echo "Launching Makefile for Minilibx.."
+	@make -C ./minilibx
+	$(complete)
+	@echo "*****************************************************"
 	@echo "Building fdf.."
 	@echo "$(ok)  Compiling sources into a program.."
 	@$(CC) $(CFLAGS) $(OBJ) $(INC) -framework OpenGL -framework AppKit -o \
@@ -69,12 +73,15 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 
 clean: 
 	@echo "*****************************************************"
+	@echo "Cleaning process for Minilibx engaged.."
+	@make clean -C ./minilibx
+	$(cleaning)
+	@echo "*****************************************************"
 	@echo "Cleaning process for Libft engaged.."
 	@make clean -C ./libft
 	$(cleaning)
 	@echo "*****************************************************"
 	@echo "Cleaning process for fdf engaged.."
-	@echo "Removing fdf binaries.."
 	@rm -rf $(OBJ_PATH)
 	$(cleaning)
 	@echo "*****************************************************"
@@ -84,6 +91,7 @@ fclean: clean
 	@echo "Removing program named fdf.."
 	@rm -f $(NAME)
 	@make fclean -C ./libft
+	@make fclean -C ./minilibx
 	$(cleaning)
 	@echo "*****************************************************"
 

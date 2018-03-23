@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 16:47:49 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/22 19:02:09 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/23 09:11:05 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	fdf_keycode(void)
 {
 	ft_putstr("Keycode mapping :\n\n");
-	ft_putstr("c\t : Run random color (for maps where y < 20)\n");
+	ft_putstr("c\t : Run random color (for maps where y < 25)\n");
 	ft_putstr("t\t : Change top color\n");
 	ft_putstr("b\t : Change bop color\n");
 	ft_putstr("r\t : Reset\n");
@@ -26,6 +26,7 @@ void	fdf_keycode(void)
 	ft_putstr("+\t : zoom +\n");
 	ft_putstr("-\t : zoom -\n");
 	ft_putstr("w\t : not for epileptic...\n");
+	ft_putstr("ESC\t : quit\n");
 }
 
 void	*fdf_error(int code, t_fdf *fdf)

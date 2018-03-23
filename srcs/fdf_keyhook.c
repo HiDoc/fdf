@@ -6,7 +6,7 @@
 /*   By: fmadura <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 13:39:48 by fmadura           #+#    #+#             */
-/*   Updated: 2018/03/22 17:28:07 by fmadura          ###   ########.fr       */
+/*   Updated: 2018/03/23 09:10:49 by fmadura          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ static int	key_exit(int keycode, t_fdf *fdf)
 		mlx_clear_window(fdf->mlx, fdf->win);
 		mlx_destroy_window(fdf->mlx, fdf->win);
 		fdf_clear_fdf(fdf);
-		sleep(10);
 		exit(0);
 	}
 	return (0);
@@ -76,7 +75,7 @@ int			key_hook(int keycode, void *param)
 
 	fdf = param;
 	hooked = 0;
-	if (keycode == 8 && fdf->size_y < 30)
+	if (keycode == 8 && fdf->size_y < 25)
 	{
 		fdf->rand = fdf_random(fdf->rand);
 		fdf_map_point(&fdf_rncg, fdf, 'c');
